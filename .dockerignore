@@ -1,0 +1,16 @@
+Create_Scripts - Master
+Create_Scripts - Release1.0
+src
+.gitignore
+.pre-commit-config.yaml
+commit-msg
+MEGA_MENU_V2.sql
+MEGA_MENU_V3.sql
+MEGA_MENU_V4.sql
+MEGA_MENU.sql
+OAUTH_SQL.txt
+pom.xml
+README.md
+USER_06112019.sql
+USER_MGMT_SCRIPT.sql
+USER_ROLES.sql

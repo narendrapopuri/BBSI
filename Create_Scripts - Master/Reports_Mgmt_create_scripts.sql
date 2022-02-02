@@ -1,0 +1,1640 @@
+--- ---- Drop TABLEs ------
+
+-- DROP TABLE Report_Def_Sort;
+-- DROP TABLE REPORT_DEF_AGGREGATE;
+-- DROP TABLE REPORT_DEF_FILTER;
+-- DROP TABLE REPORT_DEF_GROUP_BY;
+
+-- DROP TABLE USER_REPORT_DEF_HEAD_FILTER;
+-- DROP TABLE USER_REPORT_DEF_FIELD;
+-- DROP TABLE USER_REPORT_DEF_SORT;
+-- DROP TABLE USER_REPORT_DEF_AGGREGATE;
+-- DROP TABLE USER_REPORT_DEF_FILTER;
+-- DROP TABLE USER_REPORT_DEF_GROUP_BY;
+-- DROP TABLE USER_REPORT_RUN;
+-- DROP TABLE USER_REPORT;
+
+-- DROP TABLE HRP_REPORT ;
+-- DROP TABLE HRP_REPORTS_LAST_RUN;
+
+-- DROP TABLE REPORT_LIBRARY;
+-- DROP TABLE REPORT_SCHEDULER;
+-- DROP TABLE REPORT_SOURCE;
+-- DROP TABLE REPORT_TIME_FRAME_FILTER;
+-- DROP TABLE REPORT_DEFINITION_APPROVAL;
+
+-- DROP TABLE REPORT_QUADRANT_VIEW;
+-- DROP TABLE REPORT_DEF_HEAD_FILTER;
+-- DROP TABLE REPORT_DEF_FIELD;
+-- DROP TABLE REPORT_DEFINITION;
+-- DROP TABLE REPORT_GROUP;
+
+-- ------Create Scripts --------------------
+
+-- REPORT_GROUP
+
+CREATE TABLE REPORT_GROUP (
+	ID bigint NOT NULL,
+	BRAND_COLOR varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CATEGORY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	CONSTRAINT PK__REPORT_G__3214EC275199F2E0 PRIMARY KEY (ID)
+) ;
+
+
+-- REPORT_DEFINITION
+CREATE TABLE REPORT_DEFINITION (
+	ID bigint NOT NULL,
+	DESCRIPTION varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	EXPORT_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	PRINT_SERVER varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	PRINT_SERVER_PATH varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	SHOW_GROUPING bit NULL,
+	SP_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	TIMESHEET_APPROVAL_SP_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	VIEW_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_GROUP_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC2731B982C1 PRIMARY KEY (ID),
+	CONSTRAINT FK46cs0wobgmnbfst2cf2dtbf8 FOREIGN KEY (REPORT_GROUP_ID) REFERENCES REPORT_GROUP(ID)
+) ;
+
+-- REPORT_DEF_FIELD
+CREATE TABLE REPORT_DEF_FIELD (
+	ID bigint NOT NULL,
+	AGGREGATION_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DATA_SECURITY_FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DATA_SECURITY_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DATA_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DEFAULT_SEQUENCE bigint NULL,
+	DISPLAY_FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FORMATTER varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FUNCTION_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	HAS_TOTAL bit NULL,
+	IS_DATA_SECURITY_FIELD bit NULL,
+	IS_DEFAULT bit NULL,
+	IS_FORMAT bit NULL,
+	IS_GROUP_FIELD bit NULL,
+	IS_JOIN_FIELD bit NULL,
+	MIN_WIDTH int NULL,
+	NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	REPORT_SOURCE_ID bigint NULL,
+	VISIBLE bit NULL,
+	WIDTH int NULL,
+	QUADRANT_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	IS_PDF bit NULL,
+	IS_CSV bit NULL,
+	IS_CSV_DEFAULT bit NULL,
+	IS_FILTER bit NULL,
+	IS_GROUP_BY bit NULL,
+	IS_SORT bit NULL,
+	IS_MANDATORY bit NULL,
+	ALIGNMENT varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	is_common bit NULL,
+	CONSTRAINT PK__REPORT_D__3214EC27F2A90410 PRIMARY KEY (ID),
+	CONSTRAINT FKo19x2veswcootojprmkbhcahe FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+) ;
+
+-- REPORT_DEF_HEAD_FILTER
+CREATE TABLE REPORT_DEF_HEAD_FILTER (
+	ID bigint NOT NULL,
+	DISPLAY_FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_DATA_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC27F6407886 PRIMARY KEY (ID),
+	CONSTRAINT FK81amrymhkfweqnba34vwbeuid FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+);
+
+-- REPORT_QUADRANT_VIEW
+
+CREATE TABLE REPORT_QUADRANT_VIEW (
+	ID bigint NOT NULL,
+	REPORT_DEFINITION_ID bigint NOT NULL,
+	QUADRANT_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	VIEW_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__REPORT_Q__3214EC274F102218 PRIMARY KEY (ID),
+	CONSTRAINT FKtbgvdf7q5abcf4ktsre1r8cn FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+);
+
+-- REPORT_TIME_FRAME_FILTER
+
+CREATE TABLE REPORT_TIME_FRAME_FILTER (
+	ID bigint NOT NULL,
+	DISPLAY_FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_DATA_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FIELD_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_T__3214EC27D0E33B45 PRIMARY KEY (ID)
+);
+
+
+-- REPORT_DEFINITION_APPROVAL
+CREATE TABLE REPORT_DEFINITION_APPROVAL (
+	ID bigint NOT NULL,
+	CLIENT_CODE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	IS_APPROVAL bit NULL,
+	REPORT_ID bigint NULL,
+	USER_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__REPORT_D__3214EC277F039171 PRIMARY KEY (ID)
+) ;
+
+-- REPORT_SOURCE
+CREATE TABLE REPORT_SOURCE (
+	ID bigint NOT NULL,
+	IS_FIXED bit NULL,
+	[POSITION] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	[SOURCE] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TYPE] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__REPORT_S__3214EC27B0A59CD5 PRIMARY KEY (ID)
+);
+
+
+
+-- REPORT_SCHEDULER
+CREATE TABLE REPORT_SCHEDULER (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	CATEGORY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CLIENT_CODE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CLIENT_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DATE_RANGE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DESCRIPTION varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	END_DATE date NULL,
+	FORMAT varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	LAST_RUN_DATE date NULL,
+	NEXT_RUN_DATE date NULL,
+	RECURRING_INTERVAL varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	RECURRING_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_ID bigint NULL,
+	REPORT_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	START_DATE date NULL,
+	STARTS_ON varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	STARTS_ON_DAY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	STATUS varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	TIME_FRAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	USER_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__REPORT_S__3214EC27A8C82494 PRIMARY KEY (ID)
+);
+
+-- REPORT_LIBRARY
+CREATE TABLE REPORT_LIBRARY (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	FILE_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	FORMAT varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_SCHEDULER_ID bigint NULL,
+	RUN_DATE date NULL,
+	report_name varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_OUTPUT_FILE_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	STATUS varchar(1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_SOURCE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	MESSAGE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__REPORT_L__3214EC27ED9EABE7 PRIMARY KEY (ID),
+	CONSTRAINT FKjgn123nmtu5fqctemfr1gwgdo FOREIGN KEY (REPORT_SCHEDULER_ID) REFERENCES REPORT_SCHEDULER(ID)
+);
+
+-- hrp_reports_last_run
+CREATE TABLE HRP_REPORTS_LAST_RUN (
+	id bigint NOT NULL,
+	created_by varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	created_on datetime2(7) NOT NULL,
+	sync bit NULL,
+	modified_by varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	modified_on datetime2(7) NOT NULL,
+	version bigint NULL,
+	client_code varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	last_run_date_time datetime2(7) NULL,
+	user_id varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	report_definition_id bigint NULL,
+	CONSTRAINT PK__HRP_REPO__3213E83FAA8FFEC0 PRIMARY KEY (id),
+	CONSTRAINT UQ__HRP_REPO__4D4A23AE3A7E5D97 UNIQUE (report_definition_id,client_code)
+);
+
+
+-- hrp_report
+
+CREATE TABLE HRP_REPORT (
+	id bigint NOT NULL,
+	created_by varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	created_on datetime2(7) NOT NULL,
+	sync bit NULL,
+	modified_by varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	modified_on datetime2(7) NOT NULL,
+	version bigint NULL,
+	client_code varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	created_date date NULL,
+	hrp_file_name varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	invoice_amount numeric(19,2) NULL,
+	invoice_date date NULL,
+	invoice_id varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	pay_date date NULL,
+	pay_period_end_date date NULL,
+	payroll_description varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	payroll_id varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	project_code varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	project_description varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	report_type varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[sequence] int NULL,
+	CONSTRAINT PK__HRP_REPO__3213E83F41790851 PRIMARY KEY (id),
+	CONSTRAINT UQ__HRP_REPO__E1C04988E94D0D31 UNIQUE (hrp_file_name,client_code)
+) ;
+
+
+-- USER_REPORT
+CREATE TABLE USER_REPORT (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	BASE_REPORT_NAME varchar(8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CLIENT_CODE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CUSTOM_REPORT_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	HAS_FILTER bit NULL,
+	HAS_GROUP_DATA_BY_FIELDS bit NULL,
+	HAS_SORTBY bit NULL,
+	HAS_SUB_TOTOAL_DATA_TABLE bit NULL,
+	IS_APPROVAL_REPORT bit NULL,
+	LAST_RUN_DATE datetime2(7) NULL,
+	SHOW_FILTER_SUMMARY_IN_REPORT bit NULL,
+	USER_ID varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	FILE_TYPE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	INCLUDE_WC bit NULL,
+	CONSTRAINT PK__USER_REP__3214EC27D1C0A060 PRIMARY KEY (ID),
+	CONSTRAINT UQ__USER_REP__66F0FCEEC552F7AD UNIQUE (USER_ID,CUSTOM_REPORT_NAME,CLIENT_CODE),
+	CONSTRAINT FKh2cqsrxvqtk43xgtwyxs1250w FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+) ;
+
+
+-- USER_REPORT_RUN
+CREATE TABLE USER_REPORT_RUN (
+	ID bigint NOT NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	RUN_DATE datetime2(7) NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC27F406FB77 PRIMARY KEY (ID)
+) ;
+
+
+-- USER_REPORT_DEF_GROUP_BY
+CREATE TABLE USER_REPORT_DEF_GROUP_BY (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC271B5EE5CE PRIMARY KEY (ID),
+	CONSTRAINT FKe5rb1cq1ulgev0j3eo9jpg825 FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID),
+	CONSTRAINT FKi6s6tknvhdvatg427k34r969w FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID)
+);
+
+
+-- USER_REPORT_DEF_FILTER
+CREATE TABLE USER_REPORT_DEF_FILTER (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	REPORT_DEF_FILTER_OPERATOR varchar(8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEF_FILTER_VALUE varchar(8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC274AD6AA36 PRIMARY KEY (ID),
+	CONSTRAINT FK7ikc1iexa33miekesquq3iv5t FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID),
+	CONSTRAINT FKmjiu8w3l1pwa8py7hqyd7f7ci FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID)
+);
+
+-- USER_REPORT_DEF_AGGREGATE
+CREATE TABLE USER_REPORT_DEF_AGGREGATE (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	FUNCTION_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC278D94E9D0 PRIMARY KEY (ID),
+	CONSTRAINT FK7qrojvd2q9tkdwbhysl1jyp6i FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID),
+	CONSTRAINT FK7txmpqx9hxfch729xx624q1yn FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID)
+);
+
+-- USER_REPORT_DEF_SORT
+CREATE TABLE USER_REPORT_DEF_SORT (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	ORDER_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC272B03781A PRIMARY KEY (ID),
+	CONSTRAINT FKllfh6tvj5jfsg22maxni2ajoi FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID),
+	CONSTRAINT FKohr7qj57pnc9vkuplw7cdjoyg FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID)
+);
+
+-- USER_REPORT_DEF_FIELD
+CREATE TABLE USER_REPORT_DEF_FIELD (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC27548AF5CE PRIMARY KEY (ID),
+	CONSTRAINT FKevy9ku249hn4hpaxxmhrq4vd7 FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID),
+	CONSTRAINT FKq2b3vams0q7joffnussl1m7dw FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID)
+);
+
+-- USER_REPORT_DEF_HEAD_FILTER
+CREATE TABLE USER_REPORT_DEF_HEAD_FILTER (
+	ID bigint NOT NULL,
+	CREATED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CREATED_ON datetime2(7) NOT NULL,
+	SYNC bit NULL,
+	MODIFIED_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	MODIFIED_ON datetime2(7) NOT NULL,
+	VERSION bigint NULL,
+	REPORT_HEADER_FILTER_VALUE varchar(1024) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	REPORT_DEF_HEAD_FILTER_ID bigint NULL,
+	USER_REPORT_ID bigint NULL,
+	CONSTRAINT PK__USER_REP__3214EC274DAA6A9D PRIMARY KEY (ID),
+	CONSTRAINT FK1mn0x3f229jd1q59031v3142r FOREIGN KEY (REPORT_DEF_HEAD_FILTER_ID) REFERENCES REPORT_DEF_HEAD_FILTER(ID),
+	CONSTRAINT FKaw6lfb1pdydf938kt0fcf3kvs FOREIGN KEY (USER_REPORT_ID) REFERENCES USER_REPORT(ID)
+) ;
+
+-- REPORT_DEF_GROUP_BY
+CREATE TABLE REPORT_DEF_GROUP_BY (
+	ID bigint NOT NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC273F05EEB9 PRIMARY KEY (ID),
+	CONSTRAINT FKewprr7ajduwfb9odppt1hhkvy FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID),
+	CONSTRAINT FKm0wrbjtq26wy33p679u8lqcwl FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+);
+
+-- REPORT_DEF_FILTER
+CREATE TABLE REPORT_DEF_FILTER (
+	ID bigint NOT NULL,
+	REPORT_DEF_FILTER_VALUE varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC2746C9D658 PRIMARY KEY (ID),
+	CONSTRAINT FK6hdnreptslr5hdmn1085buy56 FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID),
+	CONSTRAINT FKk7tmndejmjxsegstsbqsp2udt FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID)
+);
+
+
+-- REPORT_DEF_AGGREGATE
+CREATE TABLE REPORT_DEF_AGGREGATE (
+	ID bigint NOT NULL,
+	FUNCTION_NAME varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC27BCC3C340 PRIMARY KEY (ID),
+	CONSTRAINT FK1t6yovdi3gro4gpu0h13y73rc FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID),
+	CONSTRAINT FKkptmvjg7t4xsfs0p0hmkh1k38 FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID)
+);
+
+
+
+-- REPORT_DEF_SORT
+CREATE TABLE REPORT_DEF_SORT (
+	ID bigint NOT NULL,
+	ORDER_BY varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SEQUENCE] bigint NULL,
+	REPORT_DEF_FIELD_ID bigint NULL,
+	REPORT_DEFINITION_ID bigint NULL,
+	CONSTRAINT PK__REPORT_D__3214EC27120441C5 PRIMARY KEY (ID),
+	CONSTRAINT FKf7gvdf7q5obogb4ktsre1r3sy FOREIGN KEY (REPORT_DEFINITION_ID) REFERENCES REPORT_DEFINITION(ID),
+	CONSTRAINT FKfn52b0d0bgabkps1cpp5ykqc2 FOREIGN KEY (REPORT_DEF_FIELD_ID) REFERENCES REPORT_DEF_FIELD(ID)
+);
+
+
+-- ----------------------------- Delete Scripts --------------------------
+
+DELETE from Report_Def_Sort;
+DELETE from REPORT_DEF_AGGREGATE;
+DELETE from REPORT_DEF_FILTER;
+DELETE from REPORT_DEF_GROUP_BY;
+
+DELETE FROM USER_REPORT_DEF_HEAD_FILTER;
+DELETE FROM USER_REPORT_DEF_FIELD;
+DELETE FROM USER_REPORT_DEF_SORT;
+DELETE FROM USER_REPORT_DEF_AGGREGATE;
+DELETE FROM USER_REPORT_DEF_FILTER;
+DELETE FROM USER_REPORT_DEF_GROUP_BY;
+DELETE FROM USER_REPORT_RUN;
+DELETE FROM USER_REPORT;
+
+DELETE FROM HRP_REPORT ;
+DELETE FROM HRP_REPORTS_LAST_RUN;
+
+DELETE FROM REPORT_LIBRARY;
+DELETE FROM REPORT_SCHEDULER;
+DELETE FROM REPORT_SOURCE;
+DELETE FROM REPORT_TIME_FRAME_FILTER;
+DELETE FROM REPORT_DEFINITION_APPROVAL;
+
+DELETE FROM REPORT_QUADRANT_VIEW;
+DELETE from REPORT_DEF_HEAD_FILTER;
+DELETE FROM REPORT_DEF_FIELD;
+DELETE FROM REPORT_DEFINITION;
+DELETE FROM REPORT_GROUP;
+
+
+create sequence hrp_report_id_seq start with 1 increment by 1;
+create sequence hrp_report_last_run_gen start with 1 increment by 1;
+create sequence report_def_aggregate_id_seq start with 1 increment by 1;
+create sequence report_def_field_id_seq start with 1 increment by 1;
+create sequence report_def_filter_id_seq start with 1 increment by 1;
+create sequence report_def_group_by_id_seq start with 1 increment by 1;
+create sequence report_def_head_filter_id_seq start with 1 increment by 1;
+create sequence report_def_sort_id_seq start with 1 increment by 1;
+create sequence report_definition_approval_id_seq start with 1 increment by 1;
+create sequence report_definition_id_seq start with 1 increment by 1;
+create sequence report_group_id_seq start with 1 increment by 1;
+create sequence report_library_seq start with 1 increment by 1;
+create sequence report_scheduler_seq start with 1 increment by 1;
+create sequence report_source_seq start with 1 increment by 1;
+create sequence report_time_frame_filter_id_seq start with 1 increment by 1;
+create sequence user_report_def_aggregate_id_seq start with 1 increment by 1;
+create sequence user_report_def_field_id_seq start with 1 increment by 1;
+create sequence user_report_def_filter_id_seq start with 1 increment by 1;
+create sequence user_report_def_group_by_id_seq start with 1 increment by 1;
+create sequence user_report_def_head_filter_id_seq start with 1 increment by 1;
+create sequence user_report_def_sort_id_seq start with 1 increment by 1;
+create sequence user_report_id_seq start with 1 increment by 1;
+create sequence user_report_run_id_seq start with 1 increment by 1;
+create sequence report_quadrant_view_id_seq start with 1 increment by 1;
+
+
+
+-- ----------------------------- Insert Script ---------------------------------------
+
+
+
+-- Report_Group
+INSERT INTO  REPORT_GROUP (ID,BRAND_COLOR,CATEGORY,NAME,[SEQUENCE]) VALUES 
+(1,'#99c14e','Client','Payroll Reports',1)
+,(3,'#f79a3a','Client','Accounting Reports',3)
+,(4,'#f79a3a','Client','Certified Reports',4)
+,(5,'#245b99','Client','Benefit Reports',5)
+,(6,'#416823','Client','Employee Reports',6)
+,(7,'','Audit','Audit Reports',7)
+;
+
+alter sequence report_group_id_seq restart with 8;
+
+-- Report_Definition
+INSERT INTO  REPORT_DEFINITION (ID,DESCRIPTION,EXPORT_TYPE,NAME,PRINT_SERVER,PRINT_SERVER_PATH,SHOW_GROUPING,SP_NAME,TIMESHEET_APPROVAL_SP_NAME,VIEW_NAME,REPORT_GROUP_ID) VALUES 
+(1,'Listing of payroll checks for a specified payroll or pay date range that can be used to verify a check was received.',NULL,'Employee Check Acknowledgement','N',NULL,NULL,'sp_GetPayrollDataset','sp_GetPayrollDataset_INIT','vw_PayrollDataset',1)
+,(3,'Summary of gross pay, employer taxes, and billed amounts  for a specified payroll or pay date range, totaled by department.',NULL,'Cost Allocation','N',NULL,NULL,'sp_GetPayrollDataset','sp_GetPayrollDataset_INIT','vw_PayrollDataset',1)
+,(5,'Summary of employee pay and billed amounts  for a specified payroll or pay date range, totaled by workers'' comp code.',NULL,'Client Billing Summary','N',NULL,NULL,'sp_GetPayrollDataset','sp_GetPayrollDataset_INIT','vw_PayrollDataset',1)
+,(6,'Detail of employee pay, deductions, taxes, and billed amounts for a specified payroll or pay date range.',NULL,'Payment Check Allocation','N',NULL,NULL,'sp_GetPayrollDataset','sp_GetPayrollDataset_INIT','vw_PayrollDataset',1)
+,(7,'Summary of employee deductions for a specified payroll or pay date range, grouped by deduction type.',NULL,'Employee Deduction','N',NULL,NULL,'sp_GetPayrollDataset','sp_GetPayrollDataset_INIT','vw_PayrollDataset',1)
+,(8,'Detail of employee payroll, retirement contributions and loans within a pay date range.',NULL,'Retirement Contributions','N',NULL,NULL,'sp_Get401kDataset',NULL,'vw_401kDataset',5)
+,(9,'Summary of employee time off accrued, carryover, used and available within a time off plan.',NULL,'Time Off Register','N',NULL,NULL,'sp_GetHRDataset',NULL,'vw_HRDataset',5)
+,(10,'Summary of employee basic personal and demographic information by employee name.',NULL,'Employee Census','N',NULL,NULL,'sp_GetHRDataset',NULL,'vw_HRDataset',6)
+,(11,'Analysis of employee earnings, hours, and seniority data by date range.',NULL,'Total Compensation','N',NULL,NULL,'sp_GetHRDataset',NULL,'vw_HRDataset',6)
+,(12,'Analysis of employee terminations and turnover within a date range.',NULL,'Employee Turnover','N',NULL,NULL,'sp_GetHRDataset',NULL,'vw_HRDataset',6)
+;
+INSERT INTO  REPORT_DEFINITION (ID,DESCRIPTION,EXPORT_TYPE,NAME,PRINT_SERVER,PRINT_SERVER_PATH,SHOW_GROUPING,SP_NAME,TIMESHEET_APPROVAL_SP_NAME,VIEW_NAME,REPORT_GROUP_ID) VALUES 
+(13,'Gross billing amounts, sub-totaled by workers’ compensation class with a breakout of any deduction credits/debits equaling the total invoice by payroll.',NULL,'Invoice','Y',NULL,NULL,'INVOICE',NULL,NULL,1)
+,(14,'Download of certified payroll information in the required XML format.',NULL,'California XML','Y',NULL,NULL,'CL',NULL,NULL,4)
+,(15,'Federal form WH-347 required data, including employee daily pay and project specific information.',NULL,'Certified Payroll','Y',NULL,NULL,'CERT.PAY.RPT.BBSI',NULL,NULL,4)
+,(16,'Download of company GL account information for third party importing within a payroll or pay date range',NULL,'Company Accounting','Y',NULL,NULL,'ACCOUNTING',NULL,NULL,3)
+,(17,'Summary of employee related information for the specified client or branch.',NULL,'Employee Information','N',NULL,NULL,'sp_GetHRDataset',NULL,'vw_HRDataset',7)
+,(18,'Provides all roles currently in use on the myBBSI portal as well as associated access and associated users',NULL,'Roles and Access myBBSI Portal','N',NULL,NULL,'CosmosDb',NULL,NULL,7)
+,(19,'Shows data change history as well as well as originator of the changes for defined time period',NULL,'Data changes History payroll portal','N',NULL,NULL,'CosmosDb',NULL,NULL,7)
+;
+
+alter sequence report_definition_id_seq restart with 20;
+
+-- REPORT_TIME_FRAME_FILTER
+INSERT INTO  REPORT_TIME_FRAME_FILTER (ID,DISPLAY_FIELD_NAME,FIELD_DATA_TYPE,FIELD_NAME,FIELD_TYPE,REPORT_DEFINITION_ID) VALUES 
+(1,'Check Date','Date','CHECK_DATE','DATE_RANGE',NULL)
+,(2,'Period Date','Date','PERIOD_DATE','DATE_RANGE',NULL)
+,(3,'Payroll Posted','String','PAYROLL_POSTED','MULTI_SELECT',NULL)
+;
+
+alter sequence report_time_frame_filter_id_seq restart with 4;
+
+-- REPORT_QUADRANT_VIEW
+
+INSERT INTO  REPORT_QUADRANT_VIEW (ID,REPORT_DEFINITION_ID,QUADRANT_NAME,VIEW_NAME) VALUES 
+(1,1,'VE','vw_VoucherEmployee')
+,(2,3,'VE','vw_VoucherEmployee')
+,(3,3,'VEL','vw_VoucherEarningLineAllocations')
+,(4,3,'CPT','vw_VoucherEarningLineCompanyPaidAllocations')
+,(5,5,'VEL','vw_VoucherEarningLineAllocations')
+,(6,5,'VE','vw_VoucherEmployee')
+,(7,5,'CPT','vw_VoucherEarningLineCompanyPaidAllocations')
+,(8,6,'VE','vw_VoucherEmployee')
+,(9,6,'VEL','vw_VoucherEarningLineAllocations')
+,(10,6,'ED','vw_VoucherEarningLineDeductionAllocations')
+;
+INSERT INTO  REPORT_QUADRANT_VIEW (ID,REPORT_DEFINITION_ID,QUADRANT_NAME,VIEW_NAME) VALUES 
+(11,6,'EET','vw_VoucherEarningLineEmployeeTaxAllocations')
+,(12,6,'CPT','vw_VoucherEarningLineCompanyPaidAllocations')
+,(13,7,'ED','vw_VoucherEarningLineDeductionAllocations')
+,(14,7,'VE','vw_VoucherEmployee')
+,(15,7,'VEL','vw_VoucherEarningLineAllocations')
+,(16,9,'CEPR','vw_ClientEmployeePTORegister')
+,(17,9,'CEV','vw_ClientEmployeeVoucher')
+,(18,9,'VEL','vw_VoucherEarningLineAllocations')
+,(19,10,'CECS','vw_ClientEmployeeCurrentState')
+,(20,11,'CEV','vw_ClientEmployeeVoucher')
+;
+INSERT INTO  REPORT_QUADRANT_VIEW (ID,REPORT_DEFINITION_ID,QUADRANT_NAME,VIEW_NAME) VALUES 
+(21,17,'CECS','vw_ClientEmployeeCurrentState')
+,(22,12,'CEV','vw_ClientEmployeeVoucher')
+,(23,8,'RC','vw_401kDataset')
+,(24,9,'CECS','vw_ClientEmployeeCurrentState')
+;
+
+alter sequence report_quadrant_view_id_seq restart with 25;
+
+-- Report_Def_Field
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(1,NULL,NULL,NULL,'String',13,'Payroll ID','Payroll ID','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,10,NULL,6,NULL,0,10,'VE',0,1,0,0,1,1,0,NULL,0)
+,(2,NULL,NULL,NULL,'String',15,'Payroll Descrip','Payroll Description','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,19,NULL,6,NULL,0,19,'VE',1,1,0,1,1,1,0,NULL,0)
+,(3,NULL,NULL,NULL,'String',30,'Invoice','Invoice No','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,10,NULL,6,NULL,0,10,'VE',1,1,0,1,1,1,0,NULL,0)
+,(4,NULL,NULL,NULL,'String',28,'Check/Advice','Check No','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,8,NULL,6,NULL,0,8,'VE',1,1,0,0,0,1,0,NULL,0)
+,(5,NULL,NULL,NULL,'String',14,'Pay Date','Pay Date','DATE_RANGE','String',NULL,0,NULL,1,NULL,NULL,NULL,8,NULL,6,NULL,0,8,'VE',1,1,1,0,1,1,0,NULL,0)
+,(6,NULL,NULL,NULL,'String',20,'Period Start','Period Start Date','DATE_RANGE','String',NULL,0,NULL,0,NULL,NULL,NULL,17,NULL,6,NULL,0,17,'VE',1,1,0,1,0,1,0,NULL,0)
+,(7,NULL,NULL,NULL,'String',21,'Period End','Period End Date','DATE_RANGE','String',NULL,0,NULL,1,NULL,NULL,NULL,15,NULL,6,NULL,0,15,'VE',1,1,1,0,0,1,0,NULL,0)
+,(8,NULL,NULL,NULL,'String',7,'Employee No','Employee No','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,15,NULL,6,NULL,0,15,'VE',1,1,0,1,0,1,0,NULL,0)
+,(9,NULL,NULL,NULL,'String',10,'Pay Group','Pay Group','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,22,NULL,6,NULL,0,22,'VE',0,1,0,1,1,1,0,NULL,0)
+,(10,NULL,NULL,NULL,'Timestamp',59,'TS Date Detail','TS Date Detail','DATE_RANGE','String',NULL,0,NULL,0,NULL,NULL,NULL,13,NULL,6,NULL,0,13,'VEL',0,1,0,1,0,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(12,NULL,NULL,NULL,'String',29,'Partial Check','Partial Check','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,13,NULL,6,NULL,0,13,'VE',1,1,0,1,1,1,0,NULL,0)
+,(13,NULL,NULL,NULL,'String',31,'Pay Type','Pay Type','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,15,NULL,6,NULL,0,8,'VEL',1,1,0,1,1,1,1,NULL,0)
+,(14,NULL,NULL,NULL,'BigDecimal',39,'TS Pay Rate','Pay Rate','TEXTFIELD','Currency',NULL,0,NULL,1,0,NULL,NULL,8,NULL,6,NULL,0,8,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(15,NULL,NULL,NULL,'BigDecimal',38,'Hours/Units','Hours or Units Paid','TEXTFIELD','Long','SUM',1,NULL,1,0,NULL,NULL,12,NULL,6,NULL,0,19,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(16,NULL,NULL,NULL,'BigDecimal',37,'Hours Worked','Hours Worked','TEXTFIELD','Long','SUM',1,NULL,1,0,NULL,NULL,12,NULL,6,NULL,0,12,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(17,NULL,NULL,NULL,'BigDecimal',40,'Pay Amount','Pay Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,10,NULL,6,NULL,0,10,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(18,NULL,NULL,NULL,'BigDecimal',43,'Billed','Billed Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,13,NULL,6,NULL,0,13,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(19,NULL,NULL,NULL,'BigDecimal',42,'Bill Rate','Bill Rate','TEXTFIELD','Currency',NULL,0,NULL,0,0,NULL,NULL,9,NULL,6,NULL,0,9,'VEL',1,1,0,1,0,1,0,NULL,0)
+,(20,NULL,NULL,NULL,'BigDecimal',46,'Net Invoice','Net Invoice','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,11,NULL,6,NULL,0,11,'VEL',1,1,1,1,0,1,0,NULL,0)
+,(21,NULL,NULL,NULL,'BigDecimal',41,'Net Pay','Net Pay','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,7,NULL,6,NULL,0,7,'VEL',1,1,1,1,0,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(23,NULL,NULL,NULL,'String',60,'Deduction Code','Deduction','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,12,NULL,6,NULL,0,9,'ED',1,1,1,0,0,1,0,NULL,0)
+,(24,NULL,NULL,NULL,'String',61,'Deduction Descrip','Deduction Description','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,21,NULL,6,NULL,0,21,'ED',1,1,1,0,0,1,1,NULL,0)
+,(25,NULL,NULL,NULL,'BigDecimal',62,'Deduction Amt','Deduction Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,16,NULL,6,NULL,0,16,'ED',1,1,1,0,0,1,0,NULL,0)
+,(28,NULL,NULL,NULL,'String',64,'Employee Tax Descrip','Employee Tax Description','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,24,NULL,6,NULL,0,24,'EET',1,1,1,0,0,1,1,NULL,0)
+,(29,NULL,NULL,NULL,'BigDecimal',65,'Employee Tax Amt','Employee Tax Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,19,NULL,6,NULL,0,19,'EET',1,1,1,0,0,1,0,NULL,0)
+,(30,NULL,NULL,NULL,'BigDecimal',66,'Employee Taxable','Employee Taxable Amount','TEXTFIELD','Currency',NULL,0,NULL,1,0,NULL,NULL,23,NULL,6,NULL,0,23,'EET',1,1,1,0,0,1,0,NULL,0)
+,(32,NULL,NULL,NULL,'String',67,'Company Paid Descrip','Company Paid Description','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,24,NULL,6,NULL,0,24,'CPT',1,1,1,0,0,1,1,NULL,0)
+,(33,NULL,NULL,NULL,'BigDecimal',68,'Company Paid Amt','Company Paid Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,19,NULL,6,NULL,0,19,'CPT',1,1,1,0,0,1,0,NULL,0)
+,(34,NULL,NULL,NULL,'BigDecimal',69,'Company Taxable','Employer Taxable Amount','TEXTFIELD','Currency',NULL,0,NULL,1,0,NULL,NULL,23,NULL,6,NULL,0,23,'CPT',1,1,1,0,0,1,0,NULL,0)
+,(35,NULL,NULL,NULL,'BigDecimal',1,'Company ID','Client ID','MULTI_SELECT','LongLeft',NULL,0,NULL,0,NULL,NULL,NULL,10,NULL,6,NULL,0,10,'VE',0,1,1,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(36,NULL,NULL,NULL,'String',16,'Voucher','Pay Voucher No','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,14,NULL,6,NULL,0,14,'VE',1,1,0,1,0,1,0,NULL,0)
+,(37,NULL,NULL,NULL,'String',6,'BBSI ID','Employee ID','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,11,NULL,6,NULL,0,11,'VE',1,1,1,1,1,1,0,NULL,0)
+,(38,NULL,NULL,NULL,'String',5,'SSN','Employee SSN','MULTI_SELECT','String',NULL,0,NULL,0,NULL,NULL,NULL,12,NULL,6,NULL,0,12,'VE',1,1,0,1,0,1,0,NULL,0)
+,(39,NULL,NULL,NULL,'String',1,'Employee Name','Employee Full Name','MULTI_SELECT','String',NULL,0,NULL,1,NULL,NULL,NULL,18,NULL,6,NULL,0,18,'VE',1,1,0,1,1,1,0,NULL,0)
+,(40,NULL,NULL,NULL,'String',1,'Employee Full Name','Employee Full Name','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,31,NULL,1,NULL,0,25,'VE',1,0,0,1,1,1,0,'LEFT',0)
+,(41,NULL,NULL,NULL,'String',3,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,1,NULL,0,19,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(42,NULL,NULL,NULL,'String',2,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,1,NULL,0,18,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(43,NULL,NULL,NULL,'String',4,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,1,NULL,0,23,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(44,NULL,NULL,NULL,'String',5,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,1,NULL,0,3,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(45,NULL,NULL,NULL,'String',8,'Clock','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,1,NULL,0,5,'VE',1,1,0,0,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(46,NULL,NULL,NULL,'String',7,'Employee No','Employee No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,1,NULL,0,11,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(47,NULL,NULL,NULL,'String',6,'BBSI ID','Employee ID','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,11,NULL,1,NULL,0,7,'VE',1,1,1,1,1,1,0,'CENTER',0)
+,(48,NULL,NULL,NULL,'Timestamp',21,'Period Start','Period Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,1,NULL,0,12,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(49,NULL,NULL,NULL,'Timestamp',22,'Period End','Period End Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,13,NULL,1,NULL,0,10,'VE',1,1,1,0,0,1,0,'CENTER',0)
+,(64,NULL,NULL,NULL,'String',9,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,1,NULL,0,13,'VE',1,1,0,1,1,1,0,'CENTER',0)
+,(66,NULL,NULL,NULL,'BigDecimal',38,'Check/Advice','Check No','MULTI_SELECT','LongLeft','COUNT',NULL,NULL,1,0,NULL,NULL,16,NULL,1,NULL,0,12,'VE',1,1,1,0,0,1,0,'CENTER',0)
+,(67,NULL,NULL,NULL,'String',39,'Partial Check','Partial Check','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,1,NULL,0,13,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(79,NULL,NULL,NULL,'String',14,'Payroll ID','Payroll ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,1,NULL,0,10,'VE',1,1,1,0,1,1,0,'CENTER',0)
+,(80,NULL,NULL,NULL,'String',16,'Payroll Description','Payroll Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,1,NULL,0,19,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(81,NULL,NULL,NULL,'BigDecimal',11,'Company ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,1,0,0,NULL,NULL,15,NULL,1,NULL,0,10,'VE',1,1,1,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(82,NULL,NULL,NULL,'String',12,'Company Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,1,NULL,0,18,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(83,NULL,NULL,NULL,'String',13,'Company Doing Business As','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,33,NULL,1,NULL,0,25,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(84,NULL,NULL,NULL,'BigDecimal',17,'Voucher','Pay Voucher No','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,1,NULL,0,7,'VE',1,1,0,0,0,1,0,'CENTER',0)
+,(85,NULL,NULL,NULL,'String',40,'Invoice','Invoice No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,1,NULL,0,7,'VE',1,1,0,1,1,1,0,'CENTER',0)
+,(88,NULL,'location_code','LOCATION','String',28,'Worksite Location','Home Location','MULTI_SELECT','String',NULL,NULL,1,0,0,NULL,NULL,21,NULL,1,NULL,0,17,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(89,NULL,NULL,NULL,'String',29,'Worksite Location Description','Location Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,35,NULL,1,NULL,0,29,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(91,NULL,'project_code','PROJECT','String',32,'Project','Home Project','MULTI_SELECT','String',NULL,NULL,1,0,0,NULL,NULL,11,NULL,1,NULL,0,7,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(92,NULL,NULL,NULL,'String',33,'Project Description','Project Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,1,NULL,0,19,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(94,NULL,'division_code','DIVISION','String',26,'Division','Home Division','MULTI_SELECT','String',NULL,NULL,1,0,0,NULL,NULL,16,NULL,1,NULL,0,8,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(95,NULL,NULL,NULL,'String',27,'Division Name','Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,1,NULL,0,13,'VE',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(97,NULL,'department_code','DEPARTMENT','String',30,'Department','Home Department','MULTI_SELECT','String',NULL,NULL,1,0,0,NULL,NULL,16,NULL,1,NULL,0,10,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(98,NULL,NULL,NULL,'String',31,'Department Name','Department Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,1,NULL,0,15,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(100,NULL,NULL,NULL,'String',36,'Union','Union','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,1,NULL,0,5,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(101,NULL,NULL,NULL,'String',37,'Union Name','Union Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,1,NULL,0,10,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(102,NULL,NULL,NULL,'String',35,'Workers'' Comp Class Description','WC Code Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,38,NULL,1,NULL,0,31,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(114,NULL,NULL,NULL,'String',10,'Pay Group','Pay Group','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,1,NULL,0,9,'VE',1,1,0,1,1,1,0,'CENTER',0)
+,(115,NULL,NULL,NULL,'Timestamp',15,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,1,NULL,0,8,'VE',1,1,1,0,1,1,0,'CENTER',0)
+,(117,NULL,NULL,NULL,'Static',41,'Signature','Signature','TEXTFIELD','Underline',NULL,NULL,NULL,1,0,NULL,NULL,26,NULL,1,NULL,0,9,'VE',1,1,0,0,0,0,0,'LEFT',0)
+,(118,NULL,NULL,NULL,'String',6,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,26,NULL,7,NULL,0,25,'VE',1,0,0,1,1,1,0,'LEFT',0)
+,(119,NULL,NULL,NULL,'String',8,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,7,NULL,0,19,'VE',0,1,1,0,0,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(120,NULL,NULL,NULL,'String',7,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(121,NULL,NULL,NULL,'String',9,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,7,NULL,0,23,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(122,NULL,NULL,NULL,'String',10,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,7,NULL,0,3,'VE',1,1,1,1,0,1,0,'CENTER',0)
+,(124,NULL,NULL,NULL,'String',12,'Employee No','Employee No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,7,NULL,0,11,'VE',1,1,1,1,0,1,0,'CENTER',0)
+,(125,NULL,NULL,NULL,'String',11,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,7,'VE',1,1,1,1,1,1,0,'CENTER',0)
+,(126,NULL,NULL,NULL,'String',13,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(127,NULL,NULL,NULL,'String',14,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,7,NULL,0,25,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(128,NULL,NULL,NULL,'String',15,'Payroll ID','Payroll ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,10,'VE',0,0,0,0,1,1,0,'CENTER',0)
+,(129,NULL,NULL,NULL,'Timestamp',20,'Period Start','Period Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,7,NULL,0,12,'VE',0,0,0,1,0,1,0,'CENTER',0)
+,(130,NULL,NULL,NULL,'Timestamp',21,'Period End','Period End Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,10,'VE',0,0,0,0,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(131,NULL,NULL,NULL,'String',17,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,7,NULL,0,14,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(132,NULL,NULL,NULL,'String',18,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,7,NULL,0,13,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(133,NULL,NULL,NULL,'String',19,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,7,NULL,0,16,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(134,NULL,NULL,NULL,'String',22,'Period End Date Month','Period End Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,7,NULL,0,21,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(138,NULL,NULL,NULL,'String',3,'Deduction Code','Deduction','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,20,NULL,7,NULL,0,14,'ED',1,1,1,1,1,1,0,'LEFT',0)
+,(139,NULL,NULL,NULL,'BigDecimal',5,'Amount','Deduction Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,1,NULL,NULL,14,NULL,7,NULL,0,6,'ED',1,1,1,0,0,1,0,'RIGHT',0)
+,(140,NULL,NULL,NULL,'String',4,'Deduction Description','Deduction Description','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,28,NULL,7,NULL,0,21,'ED',1,1,1,1,1,1,0,'LEFT',0)
+,(141,NULL,NULL,NULL,'String',23,'Period End Date Year','Period End Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,7,NULL,0,20,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(142,NULL,NULL,NULL,'String',24,'Period End Date Quarter','Period End Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,7,NULL,0,23,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(143,NULL,NULL,NULL,'String',25,'Union','Union','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,5,NULL,7,NULL,0,5,'VE',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(144,NULL,NULL,NULL,'BigDecimal',27,'Check/Advice','Check No','MULTI_SELECT','LongLeft',NULL,NULL,NULL,1,0,NULL,NULL,16,NULL,7,NULL,0,12,'VE',1,1,1,0,0,1,0,'CENTER',0)
+,(145,NULL,NULL,NULL,'String',26,'Union Name','Union Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,10,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(159,NULL,NULL,NULL,'BigDecimal',1,'Company ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,1,1,0,NULL,NULL,15,NULL,7,NULL,0,10,'ED',1,1,1,1,1,1,0,'CENTER',0)
+,(162,NULL,NULL,NULL,'BigDecimal',2,'Voucher','Pay Voucher No','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,7,'ED',1,1,0,0,0,1,0,'CENTER',0)
+,(163,NULL,NULL,NULL,'String',28,'Pay Type','Pay Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,7,NULL,0,8,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(164,NULL,NULL,NULL,'String',29,'Pay Type Descrip','Pay Type Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,7,NULL,0,16,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(165,NULL,NULL,NULL,'String',40,'TS Worksite Location','TS Worksite Location','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,7,NULL,0,20,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(166,NULL,NULL,NULL,'String',41,'TS Worksite Location Descrip','Worksite Location Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,7,NULL,0,28,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(167,NULL,NULL,NULL,'String',42,'TS Project','TS Project','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(168,NULL,NULL,NULL,'String',43,'TS Project Descrip','Project Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(169,NULL,NULL,NULL,'String',34,'Classification','Classification','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(170,NULL,NULL,NULL,'String',35,'Classification Descrip','Classification Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,7,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(171,NULL,NULL,NULL,'String',36,'TS Division','TS Division','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,7,NULL,0,11,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(172,NULL,NULL,NULL,'String',37,'TS Division Descrip','Division Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,7,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(173,NULL,NULL,NULL,'String',38,'TS Department','TS Department','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,7,NULL,0,13,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(174,NULL,NULL,NULL,'String',39,'TS Department Descrip','Department Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,7,NULL,0,15,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(175,NULL,'','','String',44,'TS Shift','TS Shift','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,7,NULL,0,8,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(176,NULL,'','','String',45,'Shift Name','Shift Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,7,NULL,0,10,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(177,NULL,NULL,NULL,'String',31,'TS WC Class Descrip','TS Workers'' Comp Class Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,7,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(178,NULL,NULL,NULL,'String',30,'TS WC Class Code','TS Workers'' Comp Class Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,7,NULL,0,16,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(179,NULL,NULL,NULL,'String',32,'WC Billing Code','Workers'' Comp Billing Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,7,NULL,0,15,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(180,NULL,NULL,NULL,'String',33,'WC Billing Code Descrip','Workers'' Comp Billing Code Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,7,NULL,0,23,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(193,NULL,NULL,NULL,'Timestamp',16,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,13,NULL,7,NULL,0,8,'VE',1,1,1,0,1,1,0,'CENTER',0)
+,(208,NULL,NULL,NULL,'BigDecimal',8,'Company ID','Client ID','MULTI_SELECT','LongLeft','COUNT',NULL,1,1,0,NULL,NULL,15,NULL,17,NULL,0,10,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(209,NULL,NULL,NULL,'String',9,'Co Legal Name','Client Legal Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,17,NULL,0,13,'CECS',1,1,1,1,1,1,0,'LEFT',0)
+,(210,NULL,NULL,NULL,'String',6,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,10,NULL,17,NULL,0,7,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(211,NULL,NULL,NULL,'String',1,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,17,NULL,0,25,'CECS',1,0,0,1,1,1,0,'LEFT',0)
+,(212,NULL,NULL,NULL,'String',11,'EE Status','Employee Status','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,17,NULL,0,9,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(213,NULL,NULL,NULL,'String',12,'EE Type','Employment Type','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,10,NULL,17,NULL,0,7,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(214,NULL,NULL,NULL,'String',54,'Supervisor','Supervisor ID','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,13,NULL,17,NULL,0,10,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(215,NULL,NULL,NULL,'Timestamp',16,'Orig Hire Date','Original Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,17,NULL,0,14,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(216,NULL,NULL,NULL,'Timestamp',17,'Last Hire Date','Last Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,17,NULL,0,14,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(217,NULL,NULL,NULL,'Timestamp',18,'Last Week Worked','Last Week Worked','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,22,NULL,17,NULL,0,16,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(218,NULL,NULL,NULL,'Timestamp',21,'Term Date','Termination Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,13,NULL,17,NULL,0,9,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(219,NULL,NULL,NULL,'String',26,'Occupation','Occupation','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,14,NULL,17,NULL,0,10,'CECS',1,1,1,1,1,1,0,'LEFT',0)
+,(220,NULL,NULL,NULL,'String',2,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,17,NULL,0,18,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(221,NULL,NULL,NULL,'String',3,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,17,NULL,0,19,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(222,NULL,NULL,NULL,'String',4,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,17,NULL,0,23,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(224,NULL,NULL,NULL,'String',5,'SSN','Employee SSN (masked)','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,17,NULL,0,3,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(225,NULL,NULL,NULL,'String',7,'EE No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,17,NULL,0,5,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(226,NULL,NULL,NULL,'String',10,'DBA','Client DBA','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,30,NULL,17,NULL,0,3,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(228,NULL,NULL,NULL,'Integer',14,'Age','Age','TEXTFIELD','Integer',NULL,NULL,NULL,0,0,NULL,NULL,6,NULL,17,NULL,0,3,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(229,NULL,NULL,NULL,'String',15,'Gender','Gender','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,17,NULL,0,6,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(230,NULL,NULL,NULL,'Timestamp',19,'Last Paid Date','Last Paid Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,17,NULL,0,14,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(231,NULL,NULL,NULL,'Timestamp',20,'Seniority Date','Seniority Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,17,NULL,0,14,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(232,NULL,NULL,NULL,'String',22,'Term Reason Code','Termination Reason Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,17,NULL,0,16,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(233,NULL,NULL,NULL,'String',23,'Term Reason Descrip','Termination Reason Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,17,NULL,0,19,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(234,NULL,NULL,NULL,'BigDecimal',24,'Hourly Pay Rate','Hourly Pay Rate','TEXTFIELD','Currency',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,17,NULL,0,15,'CECS',1,1,0,1,0,1,0,'RIGHT',0)
+,(235,NULL,NULL,NULL,'String',25,'Pay Rate Type','Pay Method','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,17,NULL,0,13,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(236,NULL,NULL,NULL,'String',27,'Pay Freq Code','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,17,NULL,0,13,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(237,NULL,NULL,NULL,'String',28,'Pay Freq Descrip','Pay Frequency Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,17,NULL,0,16,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(238,NULL,NULL,NULL,'String',30,'Address Line 1','Street Address','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,17,NULL,0,14,'CECS',1,1,0,0,0,1,0,'LEFT',0)
+,(239,NULL,NULL,NULL,'String',31,'Address Line 2','Street Address 2','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,17,NULL,0,14,'CECS',1,1,0,0,0,1,0,'LEFT',0)
+,(240,NULL,NULL,NULL,'String',32,'City','City','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,17,NULL,0,4,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(241,NULL,NULL,NULL,'String',33,'State','State','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,7,NULL,17,NULL,0,5,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(242,NULL,NULL,NULL,'String',34,'Zip Code','Zip','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,17,NULL,0,8,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(243,NULL,NULL,NULL,'String',35,'Email Address','Email Address','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,17,NULL,0,13,'CECS',1,1,0,0,0,1,0,'LEFT',0)
+,(244,NULL,NULL,NULL,'String',36,'Phone','Phone','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,17,NULL,0,5,'CECS',1,1,0,0,0,1,0,'CENTER',0)
+,(245,NULL,NULL,NULL,'String',37,'School District','School District Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,17,NULL,0,15,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(246,NULL,NULL,NULL,'String',38,'Federal Tax Filing Status','Federal Tax Filing Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,17,NULL,0,25,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(247,NULL,NULL,NULL,'BigDecimal',39,'Federal Withholding Allowances','Federal Withholding Allowances','MULTI_SELECT','Long',NULL,NULL,NULL,0,0,NULL,NULL,38,NULL,17,NULL,0,30,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(248,NULL,NULL,NULL,'String',40,'Fed Override Type','Federal Override Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,17,NULL,0,21,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(249,NULL,NULL,NULL,'String',41,'Fed Override Amt','Federal Override Value','MULTI_SELECT','Currency',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,17,NULL,0,22,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(250,NULL,NULL,NULL,'String',42,'State Tax Filing Status','State Tax Filing Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,17,NULL,0,23,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(251,NULL,NULL,NULL,'BigDecimal',43,'State Withholding Allowances','State Withholding Allowances','MULTI_SELECT','Long',NULL,NULL,NULL,0,0,NULL,NULL,36,NULL,17,NULL,0,28,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(252,NULL,NULL,NULL,'String',44,'St Override Type','State Override Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,17,NULL,0,19,'CECS',0,0,0,0,0,1,0,'LEFT',0)
+,(253,NULL,NULL,NULL,'BigDecimal',45,'St Override Amt','State Override Value','MULTI_SELECT','Currency',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,17,NULL,0,20,'CECS',1,1,0,1,1,1,0,'RIGHT',0)
+,(254,NULL,NULL,NULL,'String',46,'Department','Home Department Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,17,NULL,0,10,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(255,NULL,NULL,NULL,'String',47,'Department Descrip','Home Department Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,24,NULL,17,NULL,0,18,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(256,NULL,NULL,NULL,'String',48,'Division','Home Division Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,17,NULL,0,8,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(257,NULL,NULL,NULL,'String',49,'Division Descrip','Home Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,17,NULL,0,16,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(258,NULL,NULL,NULL,'String',50,'Worksite Location','Home Location Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,17,NULL,0,17,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(259,NULL,NULL,NULL,'String',51,'Worksite Location Descrip','Home Location Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,17,NULL,0,25,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(260,NULL,NULL,NULL,'String',52,'Project','Home Project Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,17,NULL,0,7,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(261,NULL,NULL,NULL,'String',53,'Project Descrip','Home Project Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,17,NULL,0,15,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(262,NULL,NULL,NULL,'String',3,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,10,NULL,0,25,'CECS',1,0,0,1,1,1,0,'LEFT',0)
+,(263,NULL,NULL,NULL,'String',2,'BBSI ID','Employee ID','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,10,NULL,10,NULL,0,7,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(264,NULL,NULL,NULL,'String',11,'EE Status','Employee Status','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,10,NULL,0,9,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(265,NULL,NULL,NULL,'String',15,'Gender','Gender','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,9,NULL,10,NULL,0,6,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(266,NULL,NULL,NULL,'Timestamp',17,'Last Hire Date','Last Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,10,NULL,0,14,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(267,NULL,NULL,NULL,'Timestamp',20,'Seniority Date','Seniority Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,10,NULL,0,14,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(268,NULL,NULL,NULL,'String',22,'Term Reason Code','Termination Reason Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,10,NULL,0,16,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(269,NULL,NULL,NULL,'String',30,'Address Line 1','Street Address','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,30,NULL,10,NULL,0,14,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(270,NULL,NULL,NULL,'String',31,'Address Line 2','Street Address 2','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,25,NULL,10,NULL,0,14,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(271,NULL,NULL,NULL,'String',32,'City','City','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,20,NULL,10,NULL,0,4,'CECS',1,1,1,1,1,1,0,'LEFT',0)
+,(272,NULL,NULL,NULL,'String',33,'State','State','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,7,NULL,10,NULL,0,5,'CECS',1,1,1,1,1,1,0,'LEFT',0)
+,(273,NULL,NULL,NULL,'String',34,'Zip Code','Zip','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,10,NULL,0,8,'CECS',1,1,1,1,1,1,0,'CENTER',0)
+,(274,NULL,NULL,NULL,'String',4,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,10,NULL,0,18,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(275,NULL,NULL,NULL,'String',5,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,10,NULL,0,19,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+,(276,NULL,NULL,NULL,'String',6,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,10,NULL,0,23,'CECS',1,1,1,0,0,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(281,NULL,NULL,NULL,'String',27,'Pay Freq Code','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,10,NULL,0,13,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(282,NULL,NULL,NULL,'String',28,'Pay Freq Descrip','Pay Frequency Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,10,NULL,0,16,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(285,NULL,NULL,NULL,'Timestamp',18,'Last Week Worked','Last Week Worked','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,10,NULL,0,16,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(286,NULL,NULL,NULL,'String',25,'Pay Rate Type','Pay Method','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,10,NULL,0,13,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(288,NULL,NULL,NULL,'BigDecimal',1,'Company ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,1,0,0,NULL,NULL,15,NULL,10,NULL,0,10,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(289,NULL,NULL,NULL,'String',9,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,10,NULL,0,13,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(290,NULL,NULL,NULL,'BigDecimal',39,'Federal Withholding Allowances','Federal Withholding Allowances','MULTI_SELECT','Long',NULL,NULL,NULL,0,0,NULL,NULL,38,NULL,10,NULL,0,30,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(291,NULL,NULL,NULL,'String',38,'Federal Tax Filing Status','Federal Tax Filing Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,10,NULL,0,25,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(292,NULL,NULL,NULL,'BigDecimal',43,'State Withholding Allowances','State Withholding Allowances','MULTI_SELECT','Long',NULL,NULL,NULL,0,0,NULL,NULL,36,NULL,10,NULL,0,28,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(293,NULL,NULL,NULL,'String',42,'State Tax Filing Status','State Tax Filing Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,10,NULL,0,23,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(296,NULL,NULL,NULL,'Integer',14,'Age','Age','TEXTFIELD','Integer',NULL,NULL,NULL,0,0,NULL,NULL,6,NULL,10,NULL,0,3,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(307,NULL,NULL,NULL,'Date',13,'DOB','Birth Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,10,NULL,0,3,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(308,NULL,NULL,NULL,'String',35,'Email Address','Email Address','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,10,NULL,0,13,'CECS',1,1,0,0,0,1,0,'LEFT',0)
+,(309,NULL,NULL,NULL,'String',29,'WC Class','Job Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,10,NULL,0,8,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(310,NULL,NULL,NULL,'Timestamp',16,'Orig Hire Date','Original Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,10,NULL,0,14,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(311,NULL,NULL,NULL,'String',36,'Phone','Phone','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,10,NULL,0,5,'CECS',1,1,0,0,0,1,0,'CENTER',0)
+,(312,NULL,NULL,NULL,'String',23,'Term Reason Descrip','Termination Reason Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,10,NULL,0,19,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(313,NULL,NULL,NULL,'String',12,'EE Type','Employment Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,10,NULL,0,7,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(315,NULL,NULL,NULL,'Timestamp',19,'Last Paid Date','Last Paid Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,10,NULL,0,14,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(320,NULL,NULL,NULL,'String',37,'School District','School District Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,10,NULL,0,15,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(321,NULL,NULL,NULL,'BigDecimal',45,'St Override Amt','State Override Value','MULTI_SELECT','Currency',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,10,NULL,0,20,'CECS',1,1,0,1,1,1,0,'RIGHT',0)
+,(322,NULL,NULL,NULL,'String',44,'St Override Type','State Override Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,10,NULL,0,19,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(324,NULL,NULL,NULL,'String',41,'Fed Override Amt','Federal Override Value','TEXTFIELD','Currency',NULL,NULL,NULL,0,1,NULL,NULL,28,NULL,10,NULL,0,22,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(325,NULL,NULL,NULL,'String',40,'Fed Override Type','Federal Override Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,10,NULL,0,21,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(332,NULL,NULL,NULL,'String',26,'Occupation','Occupation','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,10,NULL,0,10,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(334,NULL,NULL,NULL,'String',46,'Department','Home Department Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,10,NULL,0,10,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(335,NULL,NULL,NULL,'String',48,'Division','Home Division Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,10,NULL,0,8,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(336,NULL,NULL,NULL,'String',50,'Worksite Location','Home Location Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,10,NULL,0,17,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(337,NULL,NULL,NULL,'String',52,'Project','Home Project Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,10,NULL,0,7,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(344,NULL,NULL,NULL,'BigDecimal',24,'Hourly Pay Rate','Hourly Pay Rate','TEXTFIELD','Currency',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,10,NULL,0,15,'CECS',1,1,0,1,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(366,NULL,NULL,NULL,'String',47,'Department Description','Home Department Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,10,NULL,0,22,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(367,NULL,NULL,NULL,'String',49,'Division Description','Home Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,10,NULL,0,20,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(368,NULL,NULL,NULL,'String',51,'Description','Home Location Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,10,NULL,0,29,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(369,NULL,NULL,NULL,'String',53,'Project Description','Home Project Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,10,NULL,0,19,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(378,NULL,NULL,NULL,'String',40,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,31,NULL,5,NULL,0,25,'VE',1,0,0,1,1,1,0,'LEFT',0)
+,(379,NULL,NULL,NULL,'String',42,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,5,NULL,0,19,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(380,NULL,NULL,NULL,'String',41,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(381,NULL,NULL,NULL,'String',43,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,5,NULL,0,23,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(382,NULL,NULL,NULL,'String',44,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,5,NULL,0,3,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(383,NULL,NULL,NULL,'String',47,'Clock','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,5,NULL,0,5,'VE',1,1,0,0,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(384,NULL,NULL,NULL,'String',46,'Employee No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,16,NULL,5,NULL,0,11,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(386,NULL,NULL,NULL,'Timestamp',4,'Period Start Date','Period Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,5,NULL,0,17,'VEL',0,0,0,0,0,1,0,'CENTER',0)
+,(387,NULL,NULL,NULL,'Timestamp',5,'Period End Date','Period End Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,21,NULL,5,NULL,0,15,'VEL',1,1,1,0,1,1,0,'CENTER',0)
+,(388,NULL,NULL,NULL,'String',8,'Pay Type','Pay Type','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,5,NULL,0,8,'VEL',1,1,1,1,1,1,0,'LEFT',0)
+,(389,NULL,NULL,NULL,'String',9,'Pay Type Descrip','Pay Type Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,5,NULL,0,16,'VEL',1,1,0,1,1,1,0,'LEFT',0)
+,(390,NULL,NULL,NULL,'BigDecimal',10,'Hours Worked','Hours Worked','TEXTFIELD','BigDecimal2Decimal','SUM',NULL,NULL,0,0,NULL,NULL,17,NULL,5,NULL,0,12,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(391,NULL,NULL,NULL,'BigDecimal',11,'Hours/Units','Hours or Units Paid','TEXTFIELD','BigDecimal2Decimal','SUM',NULL,NULL,1,0,NULL,NULL,16,NULL,5,NULL,0,11,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+,(392,NULL,NULL,NULL,'BigDecimal',12,'TS Pay Rate','Pay Rate','TEXTFIELD','Currency',NULL,NULL,NULL,1,0,NULL,NULL,15,NULL,5,NULL,0,11,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+,(393,NULL,NULL,NULL,'BigDecimal',13,'Pay Amount','Pay Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,17,NULL,5,NULL,0,10,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+,(395,NULL,NULL,NULL,'BigDecimal',14,'Net Pay','Net Pay','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,17,NULL,5,NULL,0,7,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(396,NULL,NULL,NULL,'BigDecimal',18,'Misc Charges','Misc Charges','TEXTFIELD','Currency',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,5,NULL,0,12,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(397,NULL,NULL,NULL,'BigDecimal',17,'Non-Cash','NonCash','TEXTFIELD','Currency','SUM',NULL,NULL,0,0,NULL,NULL,14,NULL,5,NULL,0,8,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(402,NULL,NULL,NULL,'String',53,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,13,'VE',0,0,0,1,1,1,0,'CENTER',0)
+,(404,NULL,NULL,NULL,'BigDecimal',49,'Check/Advice','Check No','MULTI_SELECT','LongLeft',NULL,NULL,NULL,1,0,NULL,NULL,17,NULL,5,NULL,0,12,'VE',1,1,1,0,0,1,0,'CENTER',0)
+,(408,NULL,NULL,NULL,'BigDecimal',64,'Company Taxable','Company Taxable','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,21,NULL,5,NULL,0,15,'CPT',1,1,1,1,0,1,0,'RIGHT',0)
+,(410,NULL,NULL,NULL,'BigDecimal',63,'WC Admin','WC Admin Taxes','TEXTFIELD','Currency','SUM',NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,8,'CPT',1,1,0,1,0,1,0,'RIGHT',0)
+,(414,NULL,NULL,NULL,'String',50,'WC State','WC State','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,5,NULL,0,8,'VE',1,1,1,1,1,1,0,'LEFT',0)
+,(415,NULL,NULL,NULL,'String',51,'Pay Method','Pay Method','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,5,NULL,0,10,'VE',0,0,0,1,1,1,0,'CENTER',0)
+,(416,NULL,NULL,NULL,'String',52,'Pay Method Description','Pay Method Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,5,NULL,0,25,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(417,NULL,NULL,NULL,'String',6,'Payroll ID','Payroll ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,10,'VEL',1,1,0,0,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(418,NULL,NULL,NULL,'String',48,'Payroll Descrip','Payroll Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,5,NULL,0,15,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(419,NULL,NULL,NULL,'BigDecimal',1,'Client ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,5,NULL,0,10,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(420,NULL,NULL,NULL,'String',38,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,13,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(421,NULL,NULL,NULL,'String',39,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,6,NULL,5,NULL,0,6,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(422,NULL,NULL,NULL,'BigDecimal',7,'Voucher','Pay Voucher No','MULTI_SELECT','LongLeft','COUNT',NULL,NULL,1,1,NULL,NULL,11,NULL,5,NULL,0,7,'VEL',1,1,1,1,1,1,0,'CENTER',0)
+,(423,NULL,NULL,NULL,'String',19,'Invoice No','Invoice No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,19,NULL,5,NULL,0,14,'VEL',1,1,0,1,1,1,0,'CENTER',0)
+,(424,NULL,NULL,NULL,'BigDecimal',15,'Bill Rate','Bill Rate','TEXTFIELD','Percentage',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,9,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(425,NULL,NULL,NULL,'String',32,'TS Worksite Location','TS Worksite Location','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,5,NULL,0,20,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(427,NULL,NULL,NULL,'String',33,'TS Worksite Location Descrip','Worksite Location Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,5,NULL,0,28,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(428,NULL,NULL,NULL,'String',35,'Union','Union','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VE',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(429,NULL,NULL,NULL,'String',35,'Union Name','Union Description','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(430,NULL,NULL,NULL,'String',35,'TS Project Descrip','Project Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(431,NULL,NULL,NULL,'String',28,'TS Division','TS Division','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,5,NULL,0,11,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(433,NULL,NULL,NULL,'String',29,'TS Division Descrip','Division Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,5,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(434,NULL,NULL,NULL,'String',30,'TS Department','TS Department','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,13,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(436,NULL,NULL,NULL,'String',31,'TS Department Descrip','Department Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,5,NULL,0,15,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(437,NULL,'','','String',36,'TS Shift','TS Shift','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,5,NULL,0,8,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(440,NULL,NULL,NULL,'String',22,'TS WC Class Descrip','TS Workers'' Comp Class Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,5,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(442,NULL,NULL,NULL,'String',21,'TS WC Class Code','TS Workers'' Comp Class Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,5,NULL,0,16,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(453,NULL,NULL,NULL,'Timestamp',3,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,13,NULL,5,NULL,0,8,'VEL',1,1,1,0,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(454,NULL,NULL,NULL,'String',35,'Classification','Classification','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(455,NULL,NULL,NULL,'String',35,'Classification Descrip','Classification Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,5,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(456,NULL,NULL,NULL,'String',10,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,10,NULL,0,6,'CECS',1,1,0,1,1,1,0,'LEFT',0)
+,(457,NULL,NULL,NULL,'Timestamp',21,'Term Date','Termination Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,10,NULL,0,9,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(458,NULL,NULL,NULL,'BigDecimal',16,'Billed','Billed Amount','TEXTFIELD','Currency','SUM',NULL,NULL,0,0,NULL,NULL,11,NULL,5,NULL,0,6,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(459,NULL,NULL,NULL,'BigDecimal',20,'Other Deductions (employee)','Other Deductions','TEXTFIELD','Currency',NULL,NULL,NULL,0,0,NULL,NULL,32,NULL,5,NULL,0,27,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(460,NULL,NULL,NULL,'String',23,'WC Billing Code','Workers'' Comp Billing Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,5,NULL,0,15,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(461,NULL,NULL,NULL,'String',24,'WC Billing Code Descrip','Workers'' Comp Billing Code Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,5,NULL,0,23,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(462,NULL,'','','String',37,'Shift Name','Shift Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,5,NULL,0,10,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(463,NULL,NULL,NULL,'String',56,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,5,NULL,0,14,'VE',0,0,0,0,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(464,NULL,NULL,NULL,'String',57,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,13,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(465,NULL,NULL,NULL,'String',58,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,5,NULL,0,16,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(466,NULL,NULL,NULL,'String',59,'Period End Date Month','Period End Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,5,NULL,0,21,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(467,NULL,NULL,NULL,'String',60,'Period End Date Year','Period End Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,5,NULL,0,20,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(468,NULL,NULL,NULL,'String',61,'Period End Date Quarter','Period End Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,5,NULL,0,23,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(469,NULL,NULL,NULL,'BigDecimal',62,'Employer Taxes','Employer Taxes','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,19,NULL,5,NULL,0,14,'CPT',1,1,1,1,0,1,0,'RIGHT',0)
+,(470,NULL,NULL,NULL,'String',2,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,11,NULL,5,NULL,0,7,'VE',1,1,0,1,1,1,0,'CENTER',0)
+,(471,NULL,NULL,NULL,'String',34,'Workers'' Comp Class','Home WC Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,'40',1,NULL,0,19,'VE',1,1,0,1,1,1,0,'LEFT',0)
+,(472,NULL,NULL,NULL,'String',18,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,1,NULL,0,14,'VE',0,1,0,0,1,1,0,'LEFT',0)
+,(473,NULL,NULL,NULL,'String',19,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,1,NULL,0,13,'VE',0,1,0,0,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(474,NULL,NULL,NULL,'String',20,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,1,NULL,0,16,'VE',0,1,0,0,1,1,0,'LEFT',0)
+,(475,NULL,NULL,NULL,'String',23,'Period End Date Month','Period End Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,1,NULL,0,21,'VE',0,1,0,0,1,1,0,'LEFT',0)
+,(476,NULL,NULL,NULL,'String',24,'Period End Date Year','Period End Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,1,NULL,0,20,'VE',0,1,0,0,1,1,0,'LEFT',0)
+,(477,NULL,NULL,NULL,'String',25,'Period End Date Quarter','Period End Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,1,NULL,0,23,'VE',0,1,0,0,1,1,0,'LEFT',0)
+,(478,NULL,NULL,NULL,'Date',13,'DOB','Birth Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,17,NULL,0,3,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(479,NULL,NULL,NULL,'String',29,'WC Class','Job Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,17,NULL,0,8,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(480,NULL,NULL,NULL,'String',7,'SSN','Employee SSN (masked)','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,14,NULL,10,NULL,0,3,'CECS',1,1,1,1,0,1,0,'CENTER',0)
+,(481,NULL,NULL,NULL,'String',8,'EE No','Employee No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,10,NULL,0,5,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(490,NULL,NULL,NULL,'String',3,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,9,NULL,0,25,'CECS',1,0,0,1,1,1,0,'LEFT',0)
+,(491,NULL,NULL,NULL,'String',17,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,9,NULL,0,18,'CECS',0,1,1,0,0,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(492,NULL,NULL,NULL,'String',16,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,9,NULL,0,19,'CECS',0,1,1,0,0,1,0,'LEFT',0)
+,(493,NULL,NULL,NULL,'String',18,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,9,NULL,0,23,'CECS',0,1,1,0,0,1,0,'LEFT',0)
+,(494,NULL,NULL,NULL,'String',19,'SSN','Employee SSN (masked)','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,9,NULL,0,3,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(495,NULL,NULL,NULL,'String',20,'EE No','Employee No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,9,NULL,0,5,'CECS',1,1,0,1,0,1,0,'CENTER',0)
+,(496,NULL,NULL,NULL,'String',13,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,9,NULL,0,13,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(497,NULL,NULL,NULL,'String',14,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,9,NULL,0,3,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(498,NULL,NULL,NULL,'String',21,'EE Status','Employee Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,9,NULL,0,9,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(499,NULL,NULL,NULL,'String',22,'EE Type','Employment Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,9,NULL,0,7,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(500,NULL,NULL,NULL,'BigDecimal',12,'Hourly Pay Rate','Hourly Pay Rate','TEXTFIELD','Currency',NULL,NULL,NULL,1,0,NULL,NULL,22,NULL,9,NULL,1,15,'CECS',1,1,1,1,0,1,0,'RIGHT',0)
+,(501,NULL,NULL,NULL,'String',35,'Pay Method','Pay Method','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,9,NULL,0,13,'CECS',0,0,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(502,NULL,NULL,NULL,'String',40,'Occupation','Occupation','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,9,NULL,0,10,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(503,NULL,NULL,NULL,'String',38,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,9,NULL,0,13,'CECS',0,0,0,1,1,1,0,'CENTER',0)
+,(504,NULL,NULL,NULL,'String',39,'Pay Frequency Descrip','Pay Frequency Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,9,NULL,0,16,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(505,NULL,NULL,NULL,'String',33,'Job Code','Job Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,9,NULL,0,8,'CECS',0,0,0,1,1,1,0,'CENTER',0)
+,(506,NULL,NULL,NULL,'String',24,'Home Dept Code','Home Department Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,9,NULL,0,10,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(507,NULL,NULL,NULL,'String',25,'Home Dept Descrip','Home Department Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,9,NULL,0,18,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(508,NULL,NULL,NULL,'String',26,'Home Div Code','Home Division Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,9,NULL,0,8,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(509,NULL,NULL,NULL,'String',27,'Home Div Descrip','Home Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,9,NULL,0,16,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(510,NULL,NULL,NULL,'String',29,'Home Loc Code','Home Location Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,9,NULL,0,17,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(511,NULL,NULL,NULL,'String',30,'Home Loc Descrip','Home Location Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,9,NULL,0,25,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(512,NULL,NULL,NULL,'String',31,'Home Project Code','Home Project Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,7,NULL,9,NULL,0,7,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(513,NULL,NULL,NULL,'String',32,'Home Project Descrip','Home Project Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,9,NULL,0,15,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(514,NULL,NULL,NULL,'String',34,'Supervisor ID','Supervisor ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,9,NULL,0,10,'CECS',0,0,0,1,1,1,0,'CENTER',0)
+,(515,NULL,NULL,NULL,'String',36,'Work Group','Work Group','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,9,NULL,0,18,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(516,NULL,NULL,NULL,'Integer',28,'Yrs Svc','Years of Service','TEXTFIELD','Integer','SUM',NULL,NULL,0,0,NULL,NULL,11,NULL,9,NULL,0,11,'CECS',1,1,0,1,0,1,0,'RIGHT',0)
+,(517,NULL,NULL,NULL,'String',37,'Pay Method Descrip','Pay Method Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,9,NULL,0,19,'CECS',0,0,0,1,1,1,0,'LEFT',0)
+,(520,NULL,NULL,NULL,'BigDecimal',1,'Client ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,9,NULL,0,10,'CEPR',0,0,0,1,1,1,0,'CENTER',0)
+,(521,NULL,NULL,NULL,'String',2,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,9,NULL,0,7,'CEPR',1,1,0,1,1,1,0,'CENTER',0)
+,(522,NULL,NULL,NULL,'String',15,'Plan Description','Plan Description','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,20,NULL,9,NULL,0,16,'CEPR',1,1,1,1,1,1,0,'LEFT',0)
+,(523,NULL,NULL,NULL,'Timestamp',4,'Benefit Start Date','Benefit Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,9,NULL,0,18,'CEPR',1,1,0,1,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(524,NULL,NULL,NULL,'Timestamp',5,'Seniority Date','Seniority Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,9,NULL,0,14,'CEPR',1,1,0,1,0,1,0,'CENTER',0)
+,(525,NULL,NULL,NULL,'Timestamp',6,'Accrued Through','Date Accrued Through','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,22,NULL,9,NULL,0,15,'CEPR',1,1,1,1,0,1,0,'CENTER',0)
+,(526,NULL,NULL,NULL,'Timestamp',7,'Year End','Year End','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,9,NULL,0,8,'CEPR',1,1,1,1,0,1,0,'CENTER',0)
+,(527,NULL,NULL,NULL,'BigDecimal',8,'Carryover','Carryover Hours','TEXTFIELD','BigDecimal','SUM',NULL,NULL,1,0,NULL,NULL,13,NULL,9,NULL,1,15,'CEPR',1,1,1,1,0,1,0,'RIGHT',0)
+,(528,NULL,NULL,NULL,'BigDecimal',9,'Accrued','Accrued Hours','TEXTFIELD','BigDecimal','SUM',NULL,NULL,1,0,NULL,NULL,14,NULL,9,NULL,1,13,'CEPR',1,1,1,1,0,1,0,'RIGHT',0)
+,(529,NULL,NULL,NULL,'BigDecimal',10,'Used','PTO Hours Used','TEXTFIELD','BigDecimal','SUM',NULL,NULL,1,0,NULL,NULL,10,NULL,9,NULL,1,14,'CEPR',1,1,1,1,0,1,0,'RIGHT',0)
+,(530,NULL,NULL,NULL,'BigDecimal',11,'Available','PTO Balance','TEXTFIELD','BigDecimal','SUM',NULL,NULL,1,0,NULL,NULL,14,NULL,9,NULL,1,11,'CEPR',1,1,1,1,0,1,0,'RIGHT',0)
+,(531,NULL,NULL,NULL,'BigDecimal',23,'Potential Payout','PTO Payroll Equivalent','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,24,NULL,9,NULL,1,22,'CEPR',1,1,1,1,0,1,0,'RIGHT',0)
+,(540,NULL,NULL,NULL,'BigDecimal',11,'Client ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,3,NULL,0,10,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(541,NULL,NULL,NULL,'String',2,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,3,NULL,0,7,'VE',1,1,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(542,NULL,NULL,NULL,'Timestamp',12,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,3,NULL,0,8,'VEL',0,0,0,0,1,1,0,'CENTER',0)
+,(543,NULL,NULL,NULL,'Timestamp',13,'Period Start Date','Period Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,17,NULL,3,NULL,0,17,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(544,NULL,NULL,NULL,'Timestamp',14,'Period End Date','Period End Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,3,NULL,0,15,'VEL',0,0,0,0,1,1,0,'CENTER',0)
+,(545,NULL,NULL,NULL,'String',15,'Payroll ID','Payroll ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,3,NULL,0,10,'VEL',0,0,0,0,1,1,0,'CENTER',0)
+,(546,NULL,NULL,NULL,'BigDecimal',16,'Voucher','Pay Voucher No','MULTI_SELECT','LongLeft',NULL,NULL,NULL,0,1,NULL,NULL,7,NULL,3,NULL,0,7,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(547,NULL,NULL,NULL,'String',17,'Pay Type','Pay Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,3,NULL,0,8,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(548,NULL,NULL,NULL,'String',18,'Pay Type Descrip','Pay Type Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,3,NULL,0,16,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(549,NULL,NULL,NULL,'BigDecimal',6,'Hours Worked','Hours Worked','TEXTFIELD','BigDecimal2Decimal','SUM',NULL,NULL,0,0,NULL,NULL,15,NULL,3,NULL,0,12,'VEL',1,1,0,1,0,1,0,'RIGHT',0)
+,(550,NULL,NULL,NULL,'BigDecimal',7,'Hours/Units','Hours or Units Paid','TEXTFIELD','BigDecimal2Decimal','SUM',NULL,NULL,1,0,NULL,NULL,14,NULL,3,NULL,0,11,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+,(551,NULL,NULL,NULL,'String',19,'Classification Descrip','Classification Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,3,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(552,NULL,NULL,NULL,'BigDecimal',8,'Gross Pay','Pay Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,15,NULL,3,NULL,1,10,'VEL',1,1,1,1,0,1,0,'RIGHT',0)
+,(554,NULL,NULL,NULL,'String',21,'TS Project','TS Project','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,3,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(555,NULL,NULL,NULL,'String',22,'Classification','Classification','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,3,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(556,NULL,NULL,NULL,'String',23,'Union','Union','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,3,NULL,0,11,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(557,NULL,NULL,NULL,'String',24,'Union Name','Union Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,3,NULL,0,19,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(558,NULL,NULL,NULL,'String',25,'Invoice No','Invoice No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,3,NULL,0,14,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(560,NULL,NULL,NULL,'String',26,'TS WC Class Code','TS Workers'' Comp Class Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,3,NULL,0,16,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(561,NULL,NULL,NULL,'String',27,'TS WC Class Descrip','TS Workers'' Comp Class Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,3,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(562,NULL,NULL,NULL,'String',28,'WC Billing Code','Workers'' Comp Billing Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,3,NULL,0,15,'VEL',0,0,0,1,1,1,0,'CENTER',0)
+,(563,NULL,NULL,NULL,'String',29,'WC Billing Code Descrip','Workers'' Comp Billing Code Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,3,NULL,0,23,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(564,NULL,NULL,NULL,'String',30,'TS Division','TS Division','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,3,NULL,0,11,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(565,NULL,NULL,NULL,'String',31,'TS Division Descrip','Division Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,3,NULL,0,19,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(566,NULL,NULL,NULL,'String',32,'TS Department','TS Department','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,3,NULL,0,13,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(567,NULL,NULL,NULL,'String',33,'TS Department Descrip','Department Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,3,NULL,0,15,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(568,NULL,NULL,NULL,'String',34,'TS Worksite Location','TS Worksite Location','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,3,NULL,0,20,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(569,NULL,NULL,NULL,'String',35,'TS Worksite Location Descrip','Worksite Location Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,3,NULL,0,28,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(570,NULL,NULL,NULL,'String',36,'TS Project Descrip','Project Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,3,NULL,0,18,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(571,NULL,'','','String',37,'TS Shift','TS Shift','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,3,NULL,0,8,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(572,NULL,'','','String',38,'Shift Name','Shift Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,3,NULL,0,10,'VEL',0,0,0,1,1,1,0,'LEFT',0)
+,(573,NULL,NULL,NULL,'String',39,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,3,NULL,0,13,'VE',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(574,NULL,NULL,NULL,'String',40,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,6,NULL,3,NULL,0,6,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(575,NULL,NULL,NULL,'String',1,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,3,NULL,0,25,'VE',1,0,0,1,1,1,0,'LEFT',0)
+,(576,NULL,NULL,NULL,'String',41,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,3,NULL,0,18,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(577,NULL,NULL,NULL,'String',42,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,3,NULL,0,19,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(578,NULL,NULL,NULL,'String',43,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,3,NULL,0,23,'VE',0,1,1,0,0,1,0,'LEFT',0)
+,(579,NULL,NULL,NULL,'String',3,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,3,NULL,0,3,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(580,NULL,NULL,NULL,'String',4,'Employee No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,14,NULL,3,NULL,0,11,'VE',1,1,0,1,0,1,0,'CENTER',0)
+,(581,NULL,NULL,NULL,'String',47,'TS Project','TS Project','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,5,NULL,0,5,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(582,NULL,NULL,NULL,'String',44,'Payroll Descrip','Payroll Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,3,NULL,0,15,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(583,NULL,NULL,NULL,'String',5,'Clock','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,3,NULL,0,12,'VE',1,1,0,0,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(584,NULL,NULL,NULL,'String',45,'WC State','WC State','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,3,NULL,0,8,'VE',0,0,0,1,1,1,0,'LEFT',0)
+,(587,NULL,NULL,NULL,'String',46,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,3,NULL,0,13,'VE',0,0,0,1,1,1,0,'CENTER',0)
+,(588,NULL,NULL,NULL,'String',47,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,3,NULL,0,14,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(589,NULL,NULL,NULL,'String',48,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,3,NULL,0,13,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(590,NULL,NULL,NULL,'String',49,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,3,NULL,0,16,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(591,NULL,NULL,NULL,'String',50,'Period End Date Month','Period End Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,3,NULL,0,21,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(592,NULL,NULL,NULL,'String',51,'Period End Date Year','Period End Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,3,NULL,0,20,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(593,NULL,NULL,NULL,'String',52,'Period End Date Quarter','Period End Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,3,NULL,0,23,'VE',0,0,0,0,1,1,0,'LEFT',0)
+,(595,NULL,NULL,NULL,'BigDecimal',9,'Company Paid Amount','Company Paid Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,22,NULL,3,NULL,1,8,'CPT',1,1,1,0,0,1,0,'RIGHT',0)
+,(596,NULL,NULL,NULL,'BigDecimal',10,'Employee Total','Employee Total','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,16,NULL,3,NULL,1,15,'VEL',1,1,1,0,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(600,NULL,NULL,NULL,'BigDecimal',1,'Client ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,1,0,0,NULL,NULL,10,NULL,11,NULL,0,10,'CEV',0,0,0,1,1,1,0,'CENTER',0)
+,(601,NULL,NULL,NULL,'String',8,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,11,NULL,0,7,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(602,NULL,NULL,NULL,'String',4,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,11,NULL,0,25,'CEV',1,0,0,1,1,1,0,'LEFT',0)
+,(603,NULL,NULL,NULL,'String',5,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,11,NULL,0,18,'CEV',0,1,1,0,0,1,0,'LEFT',0)
+,(604,NULL,NULL,NULL,'String',6,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,11,NULL,0,19,'CEV',0,1,1,0,0,1,0,'LEFT',0)
+,(605,NULL,NULL,NULL,'String',7,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,11,NULL,0,23,'CEV',0,1,1,0,0,1,0,'LEFT',0)
+,(606,NULL,NULL,NULL,'String',9,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,14,NULL,11,NULL,0,3,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(607,NULL,NULL,NULL,'String',11,'EE No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,8,NULL,11,NULL,0,5,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(608,NULL,NULL,NULL,'String',2,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,11,NULL,0,13,'CEV',0,0,0,1,1,1,0,'LEFT',0)
+,(609,NULL,NULL,NULL,'String',3,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,11,NULL,0,6,'CEV',0,0,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(610,NULL,NULL,NULL,'String',15,'EE Status','Employee Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,11,NULL,0,9,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(611,NULL,NULL,NULL,'String',16,'EE Type','Employment Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,11,NULL,0,7,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(612,NULL,NULL,NULL,'Date',32,'Pay Rate Eff Date','Pay Rate Effective Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,28,NULL,11,NULL,0,3,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(613,NULL,NULL,NULL,'BigDecimal',29,'Standard Hours','Standard Hours','TEXTFIELD','BigDecimal',NULL,NULL,NULL,1,0,NULL,NULL,20,NULL,11,NULL,0,3,'CEV',1,1,1,1,0,1,0,'RIGHT',0)
+,(614,NULL,NULL,NULL,'String',10,'Gender','Gender','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,11,NULL,0,6,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(615,NULL,NULL,NULL,'Date',12,'Orig Hire Date','Original Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,11,NULL,0,14,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(616,NULL,NULL,NULL,'Date',13,'Last Hire Date','Last Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,11,NULL,0,14,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(617,NULL,NULL,NULL,'Integer',14,'Years','Years of Service','TEXTFIELD','Integer','SUM',NULL,NULL,1,0,NULL,NULL,8,NULL,11,NULL,0,16,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(618,NULL,NULL,NULL,'Date',39,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,11,NULL,0,14,'CEV',0,0,0,0,1,1,0,'CENTER',0)
+,(619,NULL,NULL,NULL,'Date',40,'Period Start Date','Period Start Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,11,NULL,0,14,'CEV',0,0,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(620,NULL,NULL,NULL,'Date',41,'Period End Date','Period End Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,11,NULL,0,9,'CEV',0,0,0,0,1,1,0,'CENTER',0)
+,(621,NULL,NULL,NULL,'Date',41,'Current YTD','Current YTD','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,9,NULL,11,NULL,0,9,'CEV',0,0,0,1,0,1,0,'CENTER',0)
+,(622,NULL,NULL,NULL,'String',38,'Payroll ID','Payroll ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,11,NULL,0,19,'CEV',0,0,0,0,1,1,0,'CENTER',0)
+,(623,NULL,NULL,NULL,'BigDecimal',30,'Hourly Pay Rate','Hourly Pay Rate','TEXTFIELD','Currency',NULL,NULL,NULL,1,1,NULL,NULL,20,NULL,11,NULL,0,15,'CEV',1,1,1,1,0,1,0,'RIGHT',0)
+,(624,NULL,NULL,NULL,'String',36,'Pay Method','Pay Method','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,11,NULL,0,13,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(625,NULL,NULL,NULL,'String',21,'Occupation','Occupation','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,14,NULL,11,NULL,0,10,'CEV',1,1,1,1,1,1,0,'LEFT',0)
+,(626,NULL,NULL,NULL,'String',28,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,11,NULL,0,13,'CEV',1,1,1,1,1,1,0,'CENTER',0)
+,(627,NULL,NULL,NULL,'String',31,'Pay Frequency Descrip','Pay Frequency Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,11,NULL,0,16,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(628,NULL,NULL,NULL,'String',22,'WC Class Code','Job Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,11,NULL,0,8,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(629,NULL,NULL,NULL,'String',23,'WC Class Title','Job Title','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,32,NULL,11,NULL,0,14,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(630,NULL,NULL,NULL,'String',37,'Pay Method Descrip','Pay Method Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,24,NULL,11,NULL,0,14,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(637,NULL,NULL,NULL,'String',17,'Home Dept Code','Home Department Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,11,NULL,0,10,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(638,NULL,NULL,NULL,'String',18,'Home Dept Descrip','Home Department Description','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,24,NULL,11,NULL,0,22,'CEV',1,1,1,1,1,1,0,'LEFT',0)
+,(639,NULL,NULL,NULL,'String',26,'Home Div Code','Home Division Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,11,NULL,0,8,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(640,NULL,NULL,NULL,'String',27,'Home Div Descrip','Home Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,11,NULL,0,20,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(641,NULL,NULL,NULL,'String',19,'Home Loc Code','Home Location Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,11,NULL,0,17,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(642,NULL,NULL,NULL,'String',20,'Home Loc Descrip','Home Location Description','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,25,NULL,11,NULL,0,29,'CEV',1,1,1,1,1,1,0,'LEFT',0)
+,(643,NULL,NULL,NULL,'String',24,'Home Project Code','Home Project Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,11,NULL,0,7,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(644,NULL,NULL,NULL,'String',25,'Home Project Descrip','Home Project Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,11,NULL,0,19,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(645,NULL,NULL,NULL,'BigDecimal',33,'Annual Pay Rate','Annual Pay Rate','TEXTFIELD','Currency','SUM',NULL,NULL,1,1,NULL,NULL,20,NULL,11,NULL,0,15,'CEV',1,1,1,1,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(646,NULL,NULL,NULL,'BigDecimal',34,'Timeframe Total Earnings','Total Earnings','TEXTFIELD','Currency','SUM',NULL,NULL,1,1,NULL,NULL,30,NULL,11,NULL,0,15,'CEV',1,1,1,1,0,1,0,'RIGHT',0)
+,(647,NULL,NULL,NULL,'String',35,'Supervisor','Supervisor ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,11,NULL,0,25,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(648,NULL,NULL,NULL,'String',2,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VE',0,1,1,0,0,1,0,NULL,0)
+,(649,NULL,NULL,NULL,'String',3,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,6,NULL,0,19,'VE',0,1,1,0,0,1,0,NULL,0)
+,(650,NULL,NULL,NULL,'String',4,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,6,NULL,0,23,'VE',0,1,1,0,0,1,0,NULL,0)
+,(651,NULL,NULL,NULL,'String',8,'Clock','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,5,NULL,6,NULL,0,5,'VE',1,1,0,0,0,1,0,NULL,0)
+,(652,NULL,NULL,NULL,'String',55,'TS Project','TS Project','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,3,NULL,6,NULL,0,5,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(653,NULL,NULL,NULL,'String',25,'Workers'' Comp State','WC State','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,6,NULL,0,8,'VE',0,1,0,1,1,1,0,NULL,0)
+,(654,NULL,NULL,NULL,'String',9,'Pay Frequency','Pay Frequency','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,6,NULL,0,13,'VE',0,1,0,1,1,1,0,NULL,0)
+,(655,NULL,NULL,NULL,'String',17,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,6,NULL,0,14,'VE',0,1,0,0,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(656,NULL,NULL,NULL,'String',18,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,6,NULL,0,13,'VE',0,1,0,0,1,1,0,NULL,0)
+,(657,NULL,NULL,NULL,'String',19,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,6,NULL,0,16,'VE',0,1,0,0,1,1,0,NULL,0)
+,(658,NULL,NULL,NULL,'String',22,'Period End Date Month','Period End Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,21,NULL,6,NULL,0,21,'VE',0,1,0,0,1,1,0,NULL,0)
+,(659,NULL,NULL,NULL,'String',23,'Period End Date Year','Period End Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,6,NULL,0,20,'VE',0,1,0,0,1,1,0,NULL,0)
+,(660,NULL,NULL,NULL,'String',24,'Period End Date Quarter','Period End Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,6,NULL,0,23,'VE',0,1,0,0,1,1,0,NULL,0)
+,(661,NULL,NULL,NULL,'String',26,'Union','Union','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VE',0,1,0,1,1,1,0,NULL,0)
+,(662,NULL,NULL,NULL,'String',27,'Union Name','Union Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VE',0,1,0,1,1,1,0,NULL,0)
+,(663,NULL,NULL,NULL,'String',11,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,6,NULL,0,13,'VE',0,1,0,1,1,1,0,NULL,0)
+,(664,NULL,NULL,NULL,'String',12,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,6,NULL,0,6,'VE',0,1,0,1,1,1,0,NULL,0)
+,(665,NULL,NULL,NULL,'String',32,'Pay Type Descrip','Pay Type Description','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,16,NULL,6,NULL,0,16,'VEL',1,1,1,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(666,NULL,NULL,NULL,'String',44,'Non-Cash','NonCash','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,6,NULL,0,8,'VEL',0,1,0,0,0,1,0,NULL,0)
+,(667,NULL,NULL,NULL,'BigDecimal',45,'Misc Charges','Misc Charges','TEXTFIELD','Currency','SUM',NULL,NULL,0,0,NULL,NULL,12,NULL,6,NULL,0,12,'VEL',1,1,0,1,0,1,0,NULL,0)
+,(668,NULL,NULL,NULL,'String',33,'TS WC Class Code','TS Workers'' Comp Class Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,6,NULL,0,16,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(669,NULL,NULL,NULL,'String',34,'TS WC Class Descrip','TS Workers'' Comp Class Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,6,NULL,0,19,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(670,NULL,NULL,NULL,'String',35,'WC Billing Code','Workers'' Comp Billing Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,6,NULL,0,15,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(671,NULL,NULL,NULL,'String',36,'WC Billing Code Descrip','Workers'' Comp Billing Code Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,23,NULL,6,NULL,0,23,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(672,NULL,NULL,NULL,'String',49,'TS Division','TS Division','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,11,NULL,6,NULL,0,11,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(673,NULL,NULL,NULL,'String',50,'TS Division Descrip','Division Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,19,NULL,6,NULL,0,19,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(674,NULL,NULL,NULL,'String',51,'TS Department','TS Department','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,6,NULL,0,13,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(675,NULL,NULL,NULL,'String',52,'TS Department Descrip','Department Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,6,NULL,0,15,'VEL',0,1,0,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(676,NULL,NULL,NULL,'String',53,'TS Worksite Location','TS Worksite Location','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,6,NULL,0,20,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(677,NULL,NULL,NULL,'String',54,'TS Worksite Location Descrip','Worksite Location Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,6,NULL,0,28,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(678,NULL,NULL,NULL,'String',56,'TS Project Descrip','Project Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(679,NULL,NULL,NULL,'String',47,'Classification','Classification','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(680,NULL,NULL,NULL,'String',48,'Classification Descrip','Classification Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,6,NULL,0,18,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(681,NULL,NULL,NULL,'String',57,'TS Shift','TS Shift','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,8,NULL,6,NULL,0,8,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(682,NULL,NULL,NULL,'String',58,'Shift Name','Shift Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,6,NULL,0,10,'VEL',0,1,0,1,1,1,0,NULL,0)
+,(690,NULL,NULL,NULL,'String',1,'Co Legal Name','Client Legal Name','MULTI_SELECT','String','',NULL,NULL,0,0,NULL,NULL,30,NULL,8,NULL,0,13,'RC',0,0,0,1,1,1,0,'LEFT',0)
+,(691,NULL,NULL,NULL,'BigDecimal',2,'Company ID','Client ID','MULTI_SELECT','LongLeft','',NULL,1,0,0,NULL,NULL,15,NULL,8,NULL,0,10,'RC',0,0,0,1,1,1,0,'CENTER',0)
+,(692,NULL,NULL,NULL,'BigDecimal',3,'FEIN','Federal ID','MULTI_SELECT','String','',NULL,1,0,0,NULL,NULL,12,NULL,8,NULL,0,10,'RC',1,1,0,1,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(693,NULL,NULL,NULL,'String',4,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,32,NULL,8,NULL,0,25,'RC',1,0,0,1,1,1,0,'LEFT',0)
+,(694,NULL,NULL,NULL,'String',5,'Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,8,NULL,0,18,'RC',1,1,1,0,0,1,0,'LEFT',0)
+,(695,NULL,NULL,NULL,'String',6,'First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,8,NULL,0,19,'RC',1,1,1,0,0,1,0,'LEFT',0)
+,(696,NULL,NULL,NULL,'String',7,'Middle Init','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,8,NULL,0,23,'RC',1,1,1,0,0,1,0,'LEFT',0)
+,(697,NULL,NULL,NULL,'String',8,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,14,NULL,8,NULL,0,3,'RC',1,1,0,1,0,1,0,'CENTER',0)
+,(698,NULL,NULL,NULL,'String',9,'SSN(Masked)','Employee SSN (masked)','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,8,NULL,0,3,'RC',1,1,1,1,0,1,0,'CENTER',0)
+,(699,NULL,NULL,NULL,'String',10,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,12,NULL,8,NULL,0,7,'RC',1,1,0,1,1,1,0,'CENTER',0)
+,(700,NULL,NULL,NULL,'String',11,'EE No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,12,NULL,8,NULL,0,5,'RC',1,1,0,1,1,1,0,'CENTER',0)
+,(701,NULL,NULL,NULL,'Date',12,'DOB','Birth Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,14,NULL,8,NULL,0,3,'RC',1,1,1,0,0,1,0,'CENTER',0)
+,(702,NULL,NULL,NULL,'String',14,'Address Line 1','Street Address','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,30,NULL,8,NULL,0,14,'RC',1,1,1,0,0,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(703,NULL,NULL,NULL,'String',15,'Address Line 2','Street Address 2','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,25,NULL,8,NULL,0,14,'RC',1,1,1,0,0,1,0,'LEFT',0)
+,(704,NULL,NULL,NULL,'String',16,'City','City','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,22,NULL,8,NULL,0,4,'RC',1,1,1,0,0,1,0,'LEFT',0)
+,(705,NULL,NULL,NULL,'String',17,'State','State','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,9,NULL,8,NULL,0,5,'RC',1,1,1,1,0,1,0,'LEFT',0)
+,(706,NULL,NULL,NULL,'String',18,'Zip','Zip','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,12,NULL,8,NULL,0,8,'RC',1,1,1,0,0,1,0,'CENTER',0)
+,(707,NULL,NULL,NULL,'Timestamp',19,'Orig Hire Date','Original Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'CENTER',0)
+,(708,NULL,NULL,NULL,'Timestamp',21,'Last Hire Date','Last Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'CENTER',0)
+,(709,NULL,NULL,NULL,'Timestamp',20,'Term Date','Termination Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,15,NULL,8,NULL,0,9,'RC',1,1,1,1,0,1,0,'CENTER',0)
+,(710,NULL,NULL,NULL,'String',22,'Email','Email Address','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,27,NULL,8,NULL,0,13,'RC',1,1,0,0,0,1,0,'LEFT',0)
+,(711,NULL,NULL,NULL,'String',23,'Phone','Phone','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,8,NULL,0,5,'RC',1,1,0,0,0,1,0,'CENTER',0)
+,(712,NULL,NULL,NULL,'Date',24,'Pay Date','Pay Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,8,NULL,0,14,'RC',0,0,0,0,1,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(713,NULL,NULL,NULL,'BigDecimal',25,'Hours/Units','Total Hours or Units Paid','TEXTFIELD','BigDecimal2Decimal','SUM',1,NULL,1,0,NULL,NULL,16,NULL,8,NULL,0,12,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(714,NULL,NULL,NULL,'BigDecimal',26,'Total Hours Worked','Total Hours Worked','TEXTFIELD','BigDecimal2Decimal','SUM',1,NULL,0,0,NULL,NULL,26,NULL,8,NULL,0,19,'RC',1,1,0,1,0,1,0,'RIGHT',0)
+,(715,NULL,NULL,NULL,'BigDecimal',27,'Total Earnings','Total Earnings','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,18,NULL,8,NULL,0,15,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(716,NULL,NULL,NULL,'BigDecimal',28,'Fed Taxable Gross','Federal Taxable Gross','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,22,NULL,8,NULL,0,8,'RC',1,1,1,0,0,1,0,'RIGHT',0)
+,(717,NULL,NULL,NULL,'String',29,'Co Plan No','Client Plan Number','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,8,NULL,0,14,'RC',1,1,0,1,1,1,0,'LEFT',0)
+,(718,NULL,NULL,NULL,'BigDecimal',30,'EE Pre-tax Retirement','Employee Pre-tax Retirement Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,26,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(719,NULL,NULL,NULL,'BigDecimal',31,'Employer Match','Employer Match Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,20,NULL,8,NULL,0,9,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(720,NULL,NULL,NULL,'BigDecimal',32,'EE Pre-tax Catchup','Employee Pre-tax Catchup Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,24,NULL,8,NULL,0,13,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(721,NULL,NULL,NULL,'BigDecimal',33,'EE Roth','Employee Roth Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,12,NULL,8,NULL,0,5,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(722,NULL,NULL,NULL,'BigDecimal',34,'EE Roth Catchup','Employee Roth Catchup Amount','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,20,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(723,NULL,NULL,NULL,'BigDecimal',35,'S125','S125 Amount','TEXTFIELD','Currency','SUM',1,NULL,0,0,NULL,NULL,10,NULL,8,NULL,0,12,'RC',1,1,0,1,0,1,0,'RIGHT',0)
+,(724,NULL,NULL,NULL,'BigDecimal',36,'EE Loan Pmt','Employee Loan Payments Amount','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,16,NULL,8,NULL,0,19,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(736,NULL,NULL,NULL,'String',48,'Pay Date Month','Pay Date Month','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,8,NULL,0,14,'RC',0,0,0,0,1,1,0,'CENTER',0)
+,(737,NULL,NULL,NULL,'String',49,'Pay Date Quarter','Pay Date Quarter','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,16,NULL,8,NULL,0,16,'RC',0,0,0,0,1,1,0,'CENTER',0)
+,(738,NULL,NULL,NULL,'String',50,'Pay Date Year','Pay Date Year','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,8,NULL,0,13,'RC',0,0,0,0,1,1,0,'CENTER',0)
+,(739,NULL,NULL,NULL,'String',13,'Marital Status','Marital Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,8,NULL,0,13,'RC',1,1,0,1,1,1,0,'CENTER',0)
+,(740,NULL,NULL,NULL,'BigDecimal',37,'YTD EE Pre-tax Retirement','YTD EE Pre-tax Retirement','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,34,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(741,NULL,NULL,NULL,'BigDecimal',39,'YTD EE Pre-tax Catchup','YTD EE Pre-tax Catchup','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,30,NULL,8,NULL,0,9,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(742,NULL,NULL,NULL,'BigDecimal',40,'YTD EE Roth','YTD EE Roth','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,15,NULL,8,NULL,0,13,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(743,NULL,NULL,NULL,'BigDecimal',41,'YTD EE Roth Catchup','YTD EE Roth Catchup','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,28,NULL,8,NULL,0,5,'RC',1,1,0,1,0,1,0,'RIGHT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(744,NULL,NULL,NULL,'BigDecimal',38,'YTD Employer Match','YTD Employer Match','TEXTFIELD','Currency','SUM',NULL,NULL,1,0,NULL,NULL,26,NULL,8,NULL,0,14,'RC',1,1,1,1,0,1,0,'RIGHT',0)
+,(745,NULL,NULL,NULL,'BigDecimal',42,'YTD S125','YTD S125','TEXTFIELD','Currency','SUM',1,NULL,0,0,NULL,NULL,12,NULL,8,NULL,0,12,'RC',1,1,0,1,0,1,0,'RIGHT',0)
+,(746,NULL,NULL,NULL,'BigDecimal',43,'YTD EE Loan Pmts','YTD EE Loan Pmt','TEXTFIELD','Currency','SUM',1,NULL,1,0,NULL,NULL,30,NULL,8,NULL,0,19,'RC',1,1,0,1,0,1,0,'RIGHT',0)
+,(750,NULL,NULL,NULL,'BigDecimal',1,'Company ID','Client ID','MULTI_SELECT','LongLeft',NULL,NULL,1,0,0,NULL,NULL,15,NULL,12,NULL,0,10,'CEV',0,0,0,1,1,1,0,'CENTER',0)
+,(751,NULL,NULL,NULL,'String',2,'Co Legal Name','Client Legal Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,12,NULL,0,13,'CEV',0,0,0,1,1,1,0,'LEFT',0)
+,(752,NULL,NULL,NULL,'String',3,'Co DBA','Client DBA','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,30,NULL,12,NULL,0,3,'CEV',0,0,0,1,1,1,0,'LEFT',0)
+,(753,NULL,NULL,NULL,'String',4,'BBSI ID','Employee ID','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,12,NULL,0,7,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(754,NULL,NULL,NULL,'String',5,'EE No','Employee No','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,10,NULL,12,NULL,0,5,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(755,NULL,NULL,NULL,'String',6,'SSN','Employee SSN','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,12,NULL,0,3,'CEV',1,1,0,0,0,1,0,'CENTER',0)
+,(756,NULL,NULL,NULL,'String',2,'Employee Name','Employee Full Name','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,30,NULL,12,NULL,0,25,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(757,NULL,NULL,NULL,'String',8,'Employee Last Name','Employee Last Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,12,NULL,0,18,'CEV',1,1,1,0,0,1,0,'LEFT',0)
+,(758,NULL,NULL,NULL,'String',9,'Employee First Name','Employee First Name','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,12,NULL,0,19,'CEV',1,1,1,0,0,1,0,'LEFT',0)
+,(759,NULL,NULL,NULL,'String',10,'Employee Middle Initial','Employee Middle Initial','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,28,NULL,12,NULL,0,23,'CEV',1,1,1,0,0,1,0,'LEFT',0)
+,(760,NULL,NULL,NULL,'String',11,'EE Status','Employee Status','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,12,NULL,0,9,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(761,NULL,NULL,NULL,'String',12,'EE Type','Employment Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,12,NULL,0,7,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(762,NULL,NULL,NULL,'Integer',13,'Years of Service','Years of Service','TEXTFIELD','Integer',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,12,NULL,0,7,'CEV',1,1,0,0,0,1,0,'RIGHT',0)
+,(763,NULL,NULL,NULL,'Timestamp',14,'Orig Hire Date','Original Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,12,NULL,0,14,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(764,NULL,NULL,NULL,'Timestamp',4,'Last Hire Date','Last Hire Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,1,0,NULL,NULL,18,NULL,12,NULL,0,14,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(765,NULL,NULL,NULL,'Timestamp',16,'Last Week Worked','Last Week Worked','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,12,NULL,0,16,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(766,NULL,NULL,NULL,'Timestamp',17,'Last Paid Date','Last Paid Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,12,NULL,0,14,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(767,NULL,NULL,NULL,'Timestamp',18,'Seniority Date','Seniority Date','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,12,NULL,0,14,'CEV',1,1,0,1,0,1,0,'CENTER',0)
+,(768,NULL,NULL,NULL,'Timestamp',5,'Term Date','Termination Date','DATE_RANGE','Timestamp','COUNT',NULL,NULL,1,0,NULL,NULL,13,NULL,12,NULL,0,9,'CEV',1,1,1,1,0,1,0,'CENTER',0)
+,(769,NULL,NULL,NULL,'String',20,'Term Reason Code','Termination Reason Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,12,NULL,0,16,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(770,NULL,NULL,NULL,'String',21,'Term Reason Descrip','Termination Reason Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,12,NULL,0,19,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(771,NULL,NULL,NULL,'String',22,'Termination Type','Termination Type','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,12,NULL,0,19,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(772,NULL,NULL,NULL,'BigDecimal',3,'Hourly Pay Rate','Hourly Pay Rate','TEXTFIELD','Currency','AVG',NULL,NULL,1,0,NULL,NULL,21,NULL,12,NULL,0,15,'CEV',1,1,1,1,0,1,0,'RIGHT',0)
+,(773,NULL,NULL,NULL,'String',24,'Occupation','Occupation','MULTI_SELECT','String','',NULL,NULL,0,0,NULL,NULL,14,NULL,12,NULL,0,10,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(774,NULL,NULL,NULL,'String',25,'WC Class','Job Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,12,NULL,12,NULL,0,8,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(775,NULL,NULL,NULL,'String',1,'WC Class Descrip','Job Title','MULTI_SELECT','String',NULL,NULL,NULL,1,0,NULL,NULL,22,NULL,12,NULL,0,8,'CEV',1,1,1,1,1,1,0,'LEFT',0)
+,(776,NULL,NULL,NULL,'String',27,'Department','Home Department Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,12,NULL,0,10,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(777,NULL,NULL,NULL,'String',28,'Department Descrip','Home Department Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,24,NULL,12,NULL,0,18,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(778,NULL,NULL,NULL,'String',29,'Division','Home Division Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,15,NULL,12,NULL,0,8,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(779,NULL,NULL,NULL,'String',30,'Division Descrip','Home Division Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,20,NULL,12,NULL,0,16,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(780,NULL,NULL,NULL,'String',31,'Worksite Location','Home Location Code','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,22,NULL,12,NULL,0,17,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(781,NULL,NULL,NULL,'String',32,'Worksite Location Descrip','Home Location Description','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,33,NULL,12,NULL,0,25,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+,(783,NULL,NULL,NULL,'String',34,'Supervisor','Supervisor ID','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,13,NULL,12,NULL,0,10,'CEV',1,1,0,1,1,1,0,'CENTER',0)
+,(784,NULL,NULL,NULL,'Timestamp',35,'Date Filter','Date Filter','DATE_RANGE','Timestamp',NULL,NULL,NULL,0,0,NULL,NULL,18,NULL,12,NULL,0,14,'CEV',0,0,0,0,0,1,0,'CENTER',0)
+,(785,NULL,NULL,NULL,'BigDecimal',36,'Total # EE','Total EE','TEXTFIELD','BigDecimal4Decimal','SUM',NULL,NULL,1,0,NULL,NULL,12,NULL,12,NULL,1,15,'CEV',1,0,0,0,0,1,1,'RIGHT',0)
+,(786,NULL,NULL,NULL,'BigDecimal',3,'Turnover Rate','Turnover Rate','TEXTFIELD','BigDecimal',NULL,NULL,NULL,1,0,NULL,NULL,19,NULL,12,NULL,0,15,'CEV',1,0,0,0,0,1,0,NULL,0)
+,(787,NULL,NULL,NULL,'String',37,'Worksite Location State','Home Location State','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,29,NULL,12,NULL,0,17,'CEV',1,1,0,1,1,1,0,'LEFT',0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(788,NULL,NULL,NULL,'String',54,'Clock No','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,10,NULL,10,NULL,0,5,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(790,NULL,NULL,NULL,'Double',56,'Fed Override %','Federal Override Percentage','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,10,NULL,0,20,'CECS',0,0,0,0,0,1,0,'RIGHT',0)
+,(792,NULL,NULL,NULL,'Double',58,'St Override %','State Override Percentage','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,10,NULL,0,20,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(793,NULL,NULL,NULL,'String',55,'Clock No','Clock No','MULTI_SELECT','String',NULL,NULL,NULL,0,0,NULL,NULL,14,NULL,17,NULL,0,5,'CECS',1,1,0,1,1,1,0,'CENTER',0)
+,(794,NULL,NULL,NULL,'Double',56,'Fed Override %','Federal Override Percentage','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,17,NULL,0,20,'CECS',0,0,0,0,0,1,0,'RIGHT',0)
+,(795,NULL,NULL,NULL,'Double',57,'St Override %','State Override Percentage','TEXTFIELD','String',NULL,NULL,NULL,0,0,NULL,NULL,25,NULL,17,NULL,0,20,'CECS',1,1,0,0,0,1,0,'RIGHT',0)
+,(796,NULL,NULL,NULL,'BigDecimal',41,'Hours or Units Paid','Voucher Hours or Units Paid','TEXTFIELD','BigDecimal2Decimal',NULL,NULL,NULL,0,0,NULL,NULL,26,NULL,1,NULL,0,25,'VE',1,1,0,0,0,1,0,'RIGHT',0)
+,(1171,NULL,NULL,NULL,'String',1,'Company ID','clientCode','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1172,NULL,NULL,NULL,'String',0,'Company Legal Name','clientName','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1173,NULL,NULL,NULL,'String',0,'BBSI Branch','bbsiBranch','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(1174,NULL,NULL,NULL,'String',2,'Login Account User ID','userName','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1175,NULL,NULL,NULL,'String',3,'Employee Name','employeeName','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1176,NULL,NULL,NULL,'String',0,'BBSI Assigned Employee ID','employeeCode','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1177,NULL,NULL,NULL,'String',4,'User Type','userType','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1178,NULL,NULL,NULL,'String',5,'Role','role','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1179,NULL,NULL,NULL,'String',6,'Access Group','accessGroup','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1180,NULL,NULL,NULL,'String',7,'Privileges','privileges','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1181,NULL,NULL,NULL,'String',0,'Portal Access Status','portalAccessStatus','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1182,NULL,NULL,NULL,'Date',0,'Portal Access Start Date','portalAccessStartDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1183,NULL,NULL,NULL,'Date',0,'Portal Access End Date','portalAccessEndDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(1184,NULL,NULL,NULL,'Date',0,'Role Creation Date','roleCreationDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1185,NULL,NULL,NULL,'Date',0,'Role Last Modified Date','roleLastModifiedDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1186,NULL,NULL,NULL,'String',0,'Role Created By','roleCreatedBy','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1187,NULL,NULL,NULL,'String',0,'Role Last Modified By','roleLastModifiedBy','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1188,NULL,NULL,NULL,'Date',0,'Access Group Creation Date','accessGroupCreationDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1189,NULL,NULL,NULL,'Date',0,'Access Group Last Modified Date','accessGroupLastModifiedDate','DATE_RANGE','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1190,NULL,NULL,NULL,'String',0,'Access Group Created By','accessGroupCreatedBy','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1191,NULL,NULL,NULL,'String',0,'Access Group Last Modified By','accessGroupLastModifiedBy','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1192,NULL,NULL,NULL,'Date',8,'User Creation Date','userCreationDate','DATE_RANGE','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1193,NULL,NULL,NULL,'Date',9,'User Last Modified Date','userLastModifiedDate','DATE_RANGE','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(1194,NULL,NULL,NULL,'String',10,'User Created By','userCreatedBy','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1195,NULL,NULL,NULL,'String',11,'User Last Modified By','userLastModifiedBy','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,18,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1196,NULL,NULL,NULL,'String',1,'Company ID','clientCode','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1197,NULL,NULL,NULL,'String',0,'Company Legal Name','clientName','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1198,NULL,NULL,NULL,'String',2,'User ID','employeeCode','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1199,NULL,NULL,NULL,'String',0,'Last Name','lastName','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1200,NULL,NULL,NULL,'String',0,'First Name','firstName','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1201,NULL,NULL,NULL,'String',3,'User Type','userType','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1202,NULL,NULL,NULL,'String',0,'BBSI Branch','bbsiBranch','MULTI_SELECT','String','COUNT',NULL,NULL,0,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1203,NULL,NULL,NULL,'String',4,'Role','role','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+;
+INSERT INTO  REPORT_DEF_FIELD (ID,AGGREGATION_TYPE,DATA_SECURITY_FIELD_NAME,DATA_SECURITY_TYPE,DATA_TYPE,DEFAULT_SEQUENCE,DISPLAY_FIELD_NAME,FIELD_NAME,FIELD_TYPE,FORMATTER,FUNCTION_NAME,HAS_TOTAL,IS_DATA_SECURITY_FIELD,IS_DEFAULT,IS_FORMAT,IS_GROUP_FIELD,IS_JOIN_FIELD,MIN_WIDTH,NAME,REPORT_DEFINITION_ID,REPORT_SOURCE_ID,VISIBLE,WIDTH,QUADRANT_NAME,IS_PDF,IS_CSV,IS_CSV_DEFAULT,IS_FILTER,IS_GROUP_BY,IS_SORT,IS_MANDATORY,ALIGNMENT,is_common) VALUES 
+(1204,NULL,NULL,NULL,'String',5,'Record ID','auditId','MULTI_SELECT','String','DISTINCT_COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1205,NULL,NULL,NULL,'String',6,'Change Made To','changeElement','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1206,NULL,NULL,NULL,'String',7,'Field Name','fieldName','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1207,NULL,NULL,NULL,'String',8,'Before Value','beforeValue','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1208,NULL,NULL,NULL,'String',9,'After Value','afterValue','MULTI_SELECT','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+,(1209,NULL,NULL,NULL,'Date',10,'Date and Time','eventDate','DATE_RANGE','String','COUNT',NULL,NULL,1,0,NULL,NULL,NULL,NULL,19,NULL,0,NULL,NULL,1,0,0,1,1,1,0,NULL,0)
+;
+
+alter sequence report_def_field_id_seq restart with 1210;
+
+-- REPORT_DEF_HEAD_FILTER
+INSERT INTO  REPORT_DEF_HEAD_FILTER (ID,DISPLAY_FIELD_NAME,FIELD_DATA_TYPE,FIELD_NAME,FIELD_TYPE,REPORT_DEFINITION_ID) VALUES 
+(1,'Payroll ID','String','Payroll ID','MULTI_SELECT',1)
+,(2,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',1)
+,(3,'Pay Date Range','Date','Pay Date','DATE_RANGE',1)
+,(7,'Payroll ID','String','Payroll ID','MULTI_SELECT',3)
+,(8,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',3)
+,(9,'Pay Date Range','Date','Pay Date','DATE_RANGE',3)
+,(10,'Payroll ID','String','Payroll ID','MULTI_SELECT',11)
+,(11,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',11)
+,(12,'Pay Date Range','Date','Pay Date','DATE_RANGE',11)
+,(13,'Payroll ID','String','Payroll ID','MULTI_SELECT',5)
+;
+INSERT INTO  REPORT_DEF_HEAD_FILTER (ID,DISPLAY_FIELD_NAME,FIELD_DATA_TYPE,FIELD_NAME,FIELD_TYPE,REPORT_DEFINITION_ID) VALUES 
+(14,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',5)
+,(15,'Pay Date Range','Date','Pay Date','DATE_RANGE',5)
+,(16,'Payroll ID','String','Payroll ID','MULTI_SELECT',6)
+,(17,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',6)
+,(18,'Pay Date Range','Date','Pay Date','DATE_RANGE',6)
+,(19,'Payroll ID','String','Payroll ID','MULTI_SELECT',7)
+,(20,'Pay Period End Date Range','Date','Period End Date','DATE_RANGE',7)
+,(21,'Pay Date Range','Date','Pay Date','DATE_RANGE',7)
+,(22,'Date Range','Date','Date Filter','DATE_RANGE',12)
+,(23,'Current YTD','Date','Current YTD','DATE_RANGE',11)
+;
+INSERT INTO  REPORT_DEF_HEAD_FILTER (ID,DISPLAY_FIELD_NAME,FIELD_DATA_TYPE,FIELD_NAME,FIELD_TYPE,REPORT_DEFINITION_ID) VALUES 
+(24,'Pay Date Range','Date','Pay Date','DATE_RANGE',8)
+,(29,'Date Range','Date','eventDateTime','DATE_RANGE',18)
+,(31,'Date Range','Date','eventDateTime','DATE_RANGE',19)
+;
+
+alter sequence report_def_head_filter_id_seq restart with 32;
+
+-- Report_Def_Group_by
+INSERT INTO  REPORT_DEF_GROUP_BY (ID,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(1,1,434,5)
+,(11,1,138,7)
+,(12,1,780,12)
+,(17,1,1178,18)
+,(18,2,1174,18)
+,(19,3,1193,18)
+,(20,1,1198,19)
+;
+
+alter sequence report_def_group_by_id_seq restart with 21;
+
+-- Report_Def_Filter
+INSERT INTO  REPORT_DEF_FILTER (ID,REPORT_DEF_FILTER_VALUE,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(1,'',1,81,1)
+,(2,'',1,419,5)
+,(3,'',1,208,17)
+,(6,'',1,159,7)
+,(7,'',1,35,6)
+,(8,NULL,1,691,8)
+,(9,'',1,288,10)
+,(10,NULL,1,520,9)
+,(11,NULL,1,540,3)
+,(12,NULL,1,600,11)
+;
+INSERT INTO  REPORT_DEF_FILTER (ID,REPORT_DEF_FILTER_VALUE,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(13,NULL,1,750,12)
+,(14,NULL,1,1171,18)
+,(15,NULL,1,1196,19)
+;
+
+alter sequence report_def_filter_id_seq restart with 16;
+
+-- Report_Def_Aggregate
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(1,'SUM',1,15,6)
+,(2,'SUM',2,16,6)
+,(3,'SUM',3,17,6)
+,(4,'SUM',4,18,6)
+,(5,'SUM',5,20,6)
+,(6,'SUM',6,21,6)
+,(7,'SUM',7,25,6)
+,(8,'SUM',8,29,6)
+,(9,'SUM',9,33,6)
+,(10,'COUNT',1,66,1)
+;
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(11,'SUM',1,139,7)
+,(12,'COUNT',2,118,7)
+,(13,'SUM',1,391,5)
+,(14,'SUM',2,393,5)
+,(15,'SUM',3,395,5)
+,(16,'SUM',4,469,5)
+,(17,'SUM',5,410,5)
+,(18,'SUM',1,527,9)
+,(19,'SUM',2,528,9)
+,(20,'SUM',3,529,9)
+;
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(21,'SUM',4,530,9)
+,(22,'COUNT',1,262,10)
+,(24,'SUM',5,531,9)
+,(25,'DISTINCT_COUNT',6,490,9)
+,(28,'DISTINCT_COUNT',1,210,17)
+,(30,'SUM',2,550,3)
+,(32,'SUM',4,552,3)
+,(33,'SUM',5,595,3)
+,(34,'SUM',6,596,3)
+,(35,'COUNT',1,602,11)
+;
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(36,'SUM',2,645,11)
+,(37,'SUM',3,646,11)
+,(38,'DISTINCT_COUNT',1,1204,19)
+,(40,'DISTINCT_COUNT',1,756,12)
+,(41,'COUNT',2,768,12)
+,(42,'AVG',3,772,12)
+,(43,'SUM',4,785,12)
+,(44,'COUNT',1,693,8)
+,(45,'SUM',2,713,8)
+,(46,'SUM',3,715,8)
+;
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(47,'SUM',4,716,8)
+,(48,'SUM',5,718,8)
+,(49,'SUM',6,720,8)
+,(50,'SUM',7,721,8)
+,(51,'SUM',8,722,8)
+,(52,'SUM',9,719,8)
+,(53,'SUM',10,724,8)
+,(54,'SUM',11,740,8)
+,(55,'SUM',12,741,8)
+,(56,'SUM',13,742,8)
+;
+INSERT INTO  REPORT_DEF_AGGREGATE (ID,FUNCTION_NAME,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(57,'SUM',14,743,8)
+,(58,'SUM',15,744,8)
+,(59,'SUM',16,746,8)
+;
+
+alter sequence report_def_aggregate_id_seq restart with 65;
+
+-- Report_Def_Sort
+INSERT INTO  REPORT_DEF_SORT (ID,ORDER_BY,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(1,'Ascending',1,211,17)
+,(2,'Ascending',1,262,10)
+,(3,'Ascending',1,40,1)
+,(4,'Ascending',1,378,5)
+,(5,'Ascending',1,193,7)
+,(6,'Ascending',1,490,9)
+,(7,'Ascending',1,575,3)
+,(8,'Ascending',2,118,7)
+,(9,'Ascending',2,522,9)
+,(10,'Ascending',1,756,12)
+;
+
+INSERT INTO  REPORT_DEF_SORT (ID,ORDER_BY,[SEQUENCE],REPORT_DEF_FIELD_ID,REPORT_DEFINITION_ID) VALUES 
+(11,'Ascending',1,602,11)
+,(16,'Ascending',1,1174,18)
+,(17,'Ascending',1,1209,19)
+,(18,'Ascending',1,693,8)
+;
+
+alter sequence report_def_sort_id_seq restart with 19;
+
+
+-- Updaet Scripts
+-- 5-5-2020
+
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='State Override Value', FIELD_TYPE='TEXTFIELD' WHERE ID=253;
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='State Override Value', FIELD_TYPE='TEXTFIELD' WHERE ID=321;
+
+
+
+-- 5-8-2020
+update REPORT_DEF_FIELD set DISPLAY_FIELD_NAME='Legal Name' where DISPLAY_FIELD_NAME = 'Company Legal Name' and REPORT_DEFINITION_ID=19;
+update report_def_field set DISPLAY_FIELD_NAME = 'SSN (Masked)' where id = 698;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=1;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=2;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=3;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=4;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=5;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=6;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=7;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=8;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=9;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=10;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=12;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=13;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=14;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=15;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=16;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=17;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=18;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=19;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=20;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=21;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=23;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=24;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=25;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=28;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=29;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=30;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=32;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=33;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=34;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=35;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=36;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=37;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=38;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1	WHERE ID=39;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1	WHERE ID=648;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=649;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=650;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=651;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=652;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=653;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=654;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=655;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=656;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=657;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=658;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=659;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=660;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=661;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=662;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=663;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=664;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=665;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=666;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=667;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=668;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=669;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=670;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=671;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=672;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=673;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=674;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=675;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=676;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=677;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=678;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=679;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=680;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=681;
+UPDATE REPORT_DEF_FIELD SET   REPORT_DEFINITION_ID=6, VISIBLE=1 WHERE ID=682;
+
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1171;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1172;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1173;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1174;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1175;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1176;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1177;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1178;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1179;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1180;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1181;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1182;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1183;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1184;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1185;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1186;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1187;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1188;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1189;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1190;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1191;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1192;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1193;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1194;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1195;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1196;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1197;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1198;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1199;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1200;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1201;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1202;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1203;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1204;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1205;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1206;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1207;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1208;
+UPDATE REPORT_DEF_FIELD SET IS_CSV=1 WHERE ID=1209;
+
+
+-- 5-11-2020: Description
+UPDATE REPORT_DEF_FIELD SET DISPLAY_FIELD_NAME='Worksite Loc Descrip', FIELD_NAME='Home Location Description' WHERE ID=368;
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='Turnover Rate', IS_DEFAULT=0, IS_PDF=0, IS_CSV=0 WHERE ID=786;
+
+
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='State', MIN_WIDTH=18 WHERE ID=241;
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='State', MIN_WIDTH=18 WHERE ID=272;
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='State', MIN_WIDTH=18 WHERE ID=705;
+
+-- 5-13-2020:
+
+UPDATE REPORT_DEFINITION SET SP_NAME = 'CERTIFIEDPAYROLL' where ID=15;
+
+-- 5-14-2020:
+ALTER TABLE REPORT_LIBRARY ADD STD_REPORT_NAME VARCHAR(255);
+
+
+UPDATE REPORT_DEF_FIELD SET FIELD_NAME='Clock No', MIN_WIDTH=14 WHERE ID=788;
+
+-- http://localhost:8812/reports-mgmt/v1/report/eeinfo/generateReport
+
+
+-- 5-19-2020
+UPDATE REPORT_DEF_FIELD SET DISPLAY_FIELD_NAME='Other Deductions (employee)', MIN_WIDTH=34 WHERE ID=459;
+
+
+INSERT INTO REPORT_DEF_AGGREGATE (ID, FUNCTION_NAME, [SEQUENCE], REPORT_DEF_FIELD_ID, REPORT_DEFINITION_ID) VALUES(60, 'SUM', 7, 535, 3);
+INSERT INTO REPORT_DEF_AGGREGATE (ID, FUNCTION_NAME, [SEQUENCE], REPORT_DEF_FIELD_ID, REPORT_DEFINITION_ID) VALUES(61, 'SUM', 8, 536, 3);
+INSERT INTO REPORT_DEF_AGGREGATE (ID, FUNCTION_NAME, [SEQUENCE], REPORT_DEF_FIELD_ID, REPORT_DEFINITION_ID) VALUES(62, 'SUM', 9, 537, 3);
+INSERT INTO REPORT_DEF_AGGREGATE (ID, FUNCTION_NAME, [SEQUENCE], REPORT_DEF_FIELD_ID, REPORT_DEFINITION_ID) VALUES(63, 'SUM', 10, 538, 3);
+INSERT INTO REPORT_DEF_AGGREGATE (ID, FUNCTION_NAME, [SEQUENCE], REPORT_DEF_FIELD_ID, REPORT_DEFINITION_ID) VALUES(64, 'SUM', 11, 539, 3);
+
+
+-- 5-20-2020
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=9, DISPLAY_FIELD_NAME='FUTA', FIELD_NAME='FUTA', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=1, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=10, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=15, QUADRANT_NAME='VEL', IS_PDF=1, IS_CSV=1, IS_CSV_DEFAULT=1, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=1, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=535;
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=10, DISPLAY_FIELD_NAME='OASDI', FIELD_NAME='OASDI', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=1, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=10, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=15, QUADRANT_NAME='VEL', IS_PDF=1, IS_CSV=1, IS_CSV_DEFAULT=1, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=1, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=536;
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=11, DISPLAY_FIELD_NAME='Medicare', FIELD_NAME='Medicare', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=1, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=12, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=15, QUADRANT_NAME='VEL', IS_PDF=1, IS_CSV=1, IS_CSV_DEFAULT=1, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=1, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=537;
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=12, DISPLAY_FIELD_NAME='State/Local Taxes', FIELD_NAME='State/Local Taxes', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=1, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=16, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=15, QUADRANT_NAME='VEL', IS_PDF=1, IS_CSV=1, IS_CSV_DEFAULT=1, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=1, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=538;
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=13, DISPLAY_FIELD_NAME='WC Admin', FIELD_NAME='WC Admin', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=1, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=12, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=15, QUADRANT_NAME='VEL', IS_PDF=1, IS_CSV=1, IS_CSV_DEFAULT=1, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=1, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=539;
+
+UPDATE REPORT_DEF_FIELD SET AGGREGATION_TYPE=NULL, DATA_SECURITY_FIELD_NAME=NULL, DATA_SECURITY_TYPE=NULL, DATA_TYPE='BigDecimal', DEFAULT_SEQUENCE=14, DISPLAY_FIELD_NAME='Company Paid Amount', FIELD_NAME='Company Paid Amount', FIELD_TYPE='TEXTFIELD', FORMATTER='Currency', FUNCTION_NAME='SUM', HAS_TOTAL=NULL, IS_DATA_SECURITY_FIELD=NULL, IS_DEFAULT=0, IS_FORMAT=0, IS_GROUP_FIELD=NULL, IS_JOIN_FIELD=NULL, MIN_WIDTH=22, NAME=NULL, REPORT_DEFINITION_ID=3, REPORT_SOURCE_ID=NULL, VISIBLE=1, WIDTH=8, QUADRANT_NAME='CPT', IS_PDF=0, IS_CSV=0, IS_CSV_DEFAULT=0, IS_FILTER=0, IS_GROUP_BY=0, IS_SORT=0, IS_MANDATORY=0, ALIGNMENT='RIGHT', is_common=0 WHERE ID=595;
+
+
+
+-- 5-21-2020
+
+UPDATE REPORT_DEF_FIELD SET DISPLAY_FIELD_NAME='SSN', IS_DEFAULT=0, IS_PDF=0, IS_CSV=1, IS_CSV_DEFAULT=1 WHERE ID=697;
+UPDATE REPORT_DEF_FIELD SET DISPLAY_FIELD_NAME='SSN (Masked)' , IS_DEFAULT=1, IS_PDF=1, IS_CSV=0, IS_CSV_DEFAULT=0 WHERE ID=698;
+

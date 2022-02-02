@@ -1,0 +1,13 @@
+repos:
+- repo: local
+  hooks:
+  - id: commit-msg
+    name: Commit messages with work Item
+    language: script
+    entry: commit-msg
+    stages: [commit-msg]
+  - id: pre-commit-msg
+    name: Pre Commit messages with work Item
+    language: script
+    entry: commit-msg
+    stages: [prepare-commit-msg]   

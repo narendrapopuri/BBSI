@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+  
+commit_regex='^#[0-9]{1,10}\s:\s(Story|Bug|Task|Issue|feat|fix|refactor|test|style|doc|revert|TCase|TPlan|Tsuite|bugfix)*\s:\s[A-Za-z].*\s:\s.*'
+commit_msg_pattern='#<WorkItem ID><Space>:<Space><WorkItem Type><Space>:<Space><Actual DevOps Board Description><Space>:<Space>Commit or PR Comments'
+error_msg="****** Aborting commit. Commit Messages in this project must adhere to this contract:\n$commit_msg_pattern"
+
+if ! grep -iqE "$commit_regex" "$1"; then
+
+    echo -e "$error_msg" >&2
+    echo "Example : #23423 : Bug : Payroll : Layout is off for submit button on the Payroll screen." >&2
+    echo "Example : #22301 : Story : Scheduled Payments : Service layer integration." >&2
+    exit 1
+fi

@@ -1,0 +1,83 @@
+spring: 
+  datasource: 
+    url: ${alt-qa-user-mgmt-datasource-url}${alt-qa-user-mgmt-datasource-schema-name};sendStringParametersAsUnicode=false
+    username: ${alt-qa-user-mgmt-datasource-username}
+    password: ${alt-qa-user-mgmt-datasource-password}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 3
+      maximum-pool-size: 180
+      idle-timeout: 10000
+      max-lifetime: 5000
+      auto-commit: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        order_inserts: true
+        order_updates: true
+        show_sql: true
+        hbm2ddl:
+          auto: update
+        jdbc:
+          batch_size: 30
+          batch_versioned_data: true
+  redis: 
+    port: ${alt-qa-spring-redis-port}
+    password: ${alt-qa-spring-redis-password}
+    host: ${alt-qa-spring-redis-host}
+    ssl: false
+azure:
+  keyvault: 
+    client-id: 01211585-24bc-4033-8cb1-53fed4325b18
+    client-key: JJ_CM2mi3YcwU48cehYPSG--~C17u89zx_
+    uri: https://bwuqargkv1.vault.azure.net/
+    refresh-interval: 604800000
+    tenant-id: af8bf9d1-b1a5-44d4-9656-158f8e04c92e
+    enabled: true
+    secret-keys:
+  cosmosdb:
+    uri: ${alt-qa-azure-documentdb-uri}
+    key: ${alt-qa-azure-documentdb-key}
+    database: ${alt-qa-azure-documentdb-database}
+audit:
+  collection:
+    name: Audit_Trail_Details
+server:
+  servlet:
+    context-path: /user
+  port: 8801
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: "metrics,loggers,health"
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: "livenessStateProbeIndicator"
+        readiness:
+          include: "readinessStateProbeIndicator"
+
+        
+jwt:
+  secret: ${alt-qa-jwt-secret}
+  # token expire time : 72hrs ie. 72* 60 (min) * 60 (seconds)
+  token-expire-time : 259200
+  
+employee:
+   max-passwords : 24
+ad:
+  keys:
+    url: https://login.microsoftonline.com/common/discovery/v2.0/keys
+    
+user:
+  default:
+    password: ${alt-qa-user-mgmt-default-password}
+    mfaDate: 2021-12-19

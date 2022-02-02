@@ -1,0 +1,86 @@
+spring: 
+  datasource: 
+    url: ${user-mgmt-datasource-url}${user-mgmt-datasource-schema-name}
+    username: ${user-mgmt-datasource-username}
+    password: ${user-mgmt-datasource-password}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 3
+      maximum-pool-size: 180
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        order_inserts: true
+        order_updates: true
+        show_sql: false
+        hbm2ddl:
+          auto: update
+        jdbc:
+          batch_size: 30
+          batch_versioned_data: true
+  redis: 
+    port: ${spring-redis-port}
+    password: ${spring-redis-password}
+    host: ${spring-redis-host}
+    ssl: false
+azure:
+  keyvault: 
+    client-id: 893feaaf-0c7c-470a-b1bf-3cb08d598d2b
+    client-key: qw9J0~SkMWRU8-SJ-2eUQ..91vXBw0-HKb
+    uri: https://bwutrngakv.vault.azure.net/
+    refresh-interval: 604800000
+    tenant-id: af8bf9d1-b1a5-44d4-9656-158f8e04c92e
+    enabled: true
+    secret-keys:
+  cosmosdb:
+    uri: ${azure-documentdb-uri}
+    key: ${azure-documentdb-key}
+    database: ${azure-documentdb-database}
+audit:
+  collection:
+    name: Audit_Trail_Details
+server:
+  servlet:
+    context-path: /user
+  port: 8801
+  tomcat:
+    max-threads: 100000
+    max-connections: 100000
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: "metrics,loggers,health"
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: "livenessStateProbeIndicator"
+        readiness:
+          include: "readinessStateProbeIndicator"
+
+jwt:
+  secret: ${user-mgmt-jwt-secret}
+  # token expire time : 72hrs ie. 72* 60 (min) * 60 (seconds)
+  token-expire-time : 259200
+  
+employee:
+   max-passwords : 24
+ad:
+  keys:
+    url: https://login.microsoftonline.com/common/discovery/v2.0/keys
+    
+user:
+  default:
+    password: ${user-mgmt-default-password}
+    mfaDate: 2022-01-23
